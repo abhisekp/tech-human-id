@@ -1,6 +1,6 @@
 {
   "name": "tech-human-id",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Returns from a pool of 15m human-readable IDs",
   "browser": "dist/index.js",
   "main": "dist/index.cjs",
@@ -10,6 +10,13 @@
   "bin": {
     "tech-human-id": "./dist/index.js"
   },
+  "files": [
+    "dist",
+    "examples.ts",
+    "index.ts",
+    "cli.ts",
+    "humanId.test.ts"
+  ],
   "scripts": {
     "watch": "parcel watch",
     "prebuild": "yarn clean",
