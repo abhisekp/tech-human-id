@@ -52,4 +52,4 @@ jobs:
           cmd: publish
         uses: borales/actions-yarn@v4
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
