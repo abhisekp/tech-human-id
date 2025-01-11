@@ -1,17 +1,21 @@
 {
   "name": "tech-human-id",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Returns from a pool of 15m human-readable IDs",
   "browser": "dist/index.js",
   "main": "dist/index.cjs",
   "source": "index.ts",
   "types": "dist/index.d.ts",
   "module": "dist/index.mjs",
-  "bin": "dist/cli.js",
+  "bin": {
+    "tech-human-id": "./dist/index.js"
+  },
   "scripts": {
     "watch": "parcel watch",
     "prebuild": "yarn clean",
     "build": "parcel build",
+    "postbuild": "yarn gen-cli",
+    "gen-cli": "tsc cli.ts --module commonjs --outDir dist --sourceMap",
     "clean": "rimraf dist/",
     "examples": "tsc && node ./dist/examples.js",
     "prepare": "husky",

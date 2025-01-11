@@ -1,41 +1,23 @@
-function $parcel$defineInteropFlag(a) {
-  Object.defineProperty(a, "__esModule", { value: true, configurable: true });
-}
-
-function $parcel$export(e, n, v, s) {
-  Object.defineProperty(e, n, { get: v, set: s, enumerable: true, configurable: true });
-}
-
-$parcel$defineInteropFlag(module.exports);
-
-$parcel$export(module.exports, "adjectives", function () {
-  return $442b29e0dcda3a2b$export$91076e975f93bb;
-});
-$parcel$export(module.exports, "nouns", function () {
-  return $442b29e0dcda3a2b$export$5cb7c19fcb84c9cd;
-});
-$parcel$export(module.exports, "verbs", function () {
-  return $442b29e0dcda3a2b$export$95c304d9ad46d333;
-});
-$parcel$export(module.exports, "adverbs", function () {
-  return $442b29e0dcda3a2b$export$b9b382fe089b530c;
-});
-$parcel$export(module.exports, "humanId", function () {
-  return $442b29e0dcda3a2b$export$d766a80fb8e0ff4e;
-});
-$parcel$export(module.exports, "poolSize", function () {
-  return $442b29e0dcda3a2b$export$2b85bff0de2bf05a;
-});
-$parcel$export(module.exports, "maxLength", function () {
-  return $442b29e0dcda3a2b$export$c9f461152c658a8b;
-});
-$parcel$export(module.exports, "minLength", function () {
-  return $442b29e0dcda3a2b$export$8fe860a115a1e636;
-});
-$parcel$export(module.exports, "default", function () {
-  return $442b29e0dcda3a2b$export$2e2bcd8739ae039;
-});
-const $442b29e0dcda3a2b$export$91076e975f93bb = [
+"use strict";
+var __spreadArray =
+  (this && this.__spreadArray) ||
+  function (to, from, pack) {
+    if (pack || arguments.length === 2)
+      for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+          if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+          ar[i] = from[i];
+        }
+      }
+    return to.concat(ar || Array.prototype.slice.call(from));
+  };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.adverbs = exports.verbs = exports.nouns = exports.adjectives = void 0;
+exports.humanId = humanId;
+exports.poolSize = poolSize;
+exports.maxLength = maxLength;
+exports.minLength = minLength;
+exports.adjectives = [
   "afraid",
   "big",
   "better",
@@ -83,7 +65,7 @@ const $442b29e0dcda3a2b$export$91076e975f93bb = [
   "wide",
   "wise",
 ];
-const $442b29e0dcda3a2b$export$5cb7c19fcb84c9cd = [
+exports.nouns = [
   "algorithms",
   "applications",
   "archives",
@@ -220,7 +202,7 @@ const $442b29e0dcda3a2b$export$5cb7c19fcb84c9cd = [
   "workflows",
   "zones",
 ];
-const $442b29e0dcda3a2b$export$95c304d9ad46d333 = [
+exports.verbs = [
   "accept",
   "add",
   "allow",
@@ -292,7 +274,7 @@ const $442b29e0dcda3a2b$export$95c304d9ad46d333 = [
   "view",
   "write",
 ];
-const $442b29e0dcda3a2b$export$b9b382fe089b530c = [
+exports.adverbs = [
   "accurately",
   "algorithmically",
   "asynchronously",
@@ -327,73 +309,131 @@ const $442b29e0dcda3a2b$export$b9b382fe089b530c = [
   "virtually",
   "wirelessly",
 ];
-function $442b29e0dcda3a2b$var$random(arr) {
+function random(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
-function $442b29e0dcda3a2b$var$longest(arr) {
-  return arr.reduce((a, b) => (a.length > b.length ? a : b));
+function longest(arr) {
+  return arr.reduce(function (a, b) {
+    return a.length > b.length ? a : b;
+  });
 }
-function $442b29e0dcda3a2b$var$shortest(arr) {
-  return arr.reduce((a, b) => (a.length < b.length ? a : b));
+function shortest(arr) {
+  return arr.reduce(function (a, b) {
+    return a.length < b.length ? a : b;
+  });
 }
-function $442b29e0dcda3a2b$export$d766a80fb8e0ff4e(options = {}) {
-  if (typeof options === "string")
-    options = {
-      separator: options,
-    };
-  if (typeof options === "boolean")
-    options = {
-      capitalize: options,
-    };
-  const {
-    separator: separator = "",
-    capitalize: capitalize = true,
-    adjectiveCount: adjectiveCount = 1,
-    addAdverb: addAdverb = false,
-  } = options;
-  let res = [
-    ...[...Array(adjectiveCount)].map((_) => $442b29e0dcda3a2b$var$random($442b29e0dcda3a2b$export$91076e975f93bb)),
-    $442b29e0dcda3a2b$var$random($442b29e0dcda3a2b$export$5cb7c19fcb84c9cd),
-    $442b29e0dcda3a2b$var$random($442b29e0dcda3a2b$export$95c304d9ad46d333),
-    ...(addAdverb ? [$442b29e0dcda3a2b$var$random($442b29e0dcda3a2b$export$b9b382fe089b530c)] : []),
-  ];
-  if (capitalize) res = res.map((r) => r.charAt(0).toUpperCase() + r.substr(1));
+/**
+ * Returns the human-id
+ *
+ * @param {Options|string|boolean} [options = {}]
+ * @returns {string}
+ */
+function humanId(options) {
+  if (options === void 0) {
+    options = {};
+  }
+  if (typeof options === "string") options = { separator: options };
+  if (typeof options === "boolean") options = { capitalize: options };
+  var _a = options.separator,
+    separator = _a === void 0 ? "" : _a,
+    _b = options.capitalize,
+    capitalize = _b === void 0 ? true : _b,
+    _c = options.adjectiveCount,
+    adjectiveCount = _c === void 0 ? 1 : _c,
+    _d = options.addAdverb,
+    addAdverb = _d === void 0 ? false : _d;
+  var res = __spreadArray(
+    __spreadArray(
+      __spreadArray(
+        [],
+        __spreadArray([], Array(adjectiveCount), true).map(function (_) {
+          return random(exports.adjectives);
+        }),
+        true,
+      ),
+      [random(exports.nouns), random(exports.verbs)],
+      false,
+    ),
+    addAdverb ? [random(exports.adverbs)] : [],
+    true,
+  );
+  if (capitalize)
+    res = res.map(function (r) {
+      return r.charAt(0).toUpperCase() + r.substr(1);
+    });
   return res.join(separator);
 }
-function $442b29e0dcda3a2b$export$2b85bff0de2bf05a(options = {}) {
-  const { adjectiveCount: adjectiveCount = 1, addAdverb: addAdverb = false } = options;
+/**
+ * Returns the pool size for a set of options
+ *
+ * @param {Options} [options = {}]
+ * @returns {number}
+ */
+function poolSize(options) {
+  if (options === void 0) {
+    options = {};
+  }
+  var _a = options.adjectiveCount,
+    adjectiveCount = _a === void 0 ? 1 : _a,
+    _b = options.addAdverb,
+    addAdverb = _b === void 0 ? false : _b;
   return (
-    $442b29e0dcda3a2b$export$91076e975f93bb.length *
+    exports.adjectives.length *
     adjectiveCount *
-    $442b29e0dcda3a2b$export$5cb7c19fcb84c9cd.length *
-    $442b29e0dcda3a2b$export$95c304d9ad46d333.length *
-    (addAdverb ? $442b29e0dcda3a2b$export$b9b382fe089b530c.length : 1)
+    exports.nouns.length *
+    exports.verbs.length *
+    (addAdverb ? exports.adverbs.length : 1)
   );
 }
-function $442b29e0dcda3a2b$export$c9f461152c658a8b(options = {}) {
-  const { adjectiveCount: adjectiveCount = 1, addAdverb: addAdverb = false, separator: separator = "" } = options;
+/**
+ * Returns the max length for a set of options
+ *
+ * @param {Options} [options = {}]
+ * @returns {number}
+ */
+function maxLength(options) {
+  if (options === void 0) {
+    options = {};
+  }
+  var _a = options.adjectiveCount,
+    adjectiveCount = _a === void 0 ? 1 : _a,
+    _b = options.addAdverb,
+    addAdverb = _b === void 0 ? false : _b,
+    _c = options.separator,
+    separator = _c === void 0 ? "" : _c;
   return (
-    $442b29e0dcda3a2b$var$longest($442b29e0dcda3a2b$export$91076e975f93bb).length * adjectiveCount +
+    longest(exports.adjectives).length * adjectiveCount +
     adjectiveCount * separator.length +
-    $442b29e0dcda3a2b$var$longest($442b29e0dcda3a2b$export$5cb7c19fcb84c9cd).length +
+    longest(exports.nouns).length +
     separator.length +
-    $442b29e0dcda3a2b$var$longest($442b29e0dcda3a2b$export$95c304d9ad46d333).length +
-    (addAdverb ? $442b29e0dcda3a2b$var$longest($442b29e0dcda3a2b$export$b9b382fe089b530c).length + separator.length : 0)
+    longest(exports.verbs).length +
+    (addAdverb ? longest(exports.adverbs).length + separator.length : 0)
   );
 }
-function $442b29e0dcda3a2b$export$8fe860a115a1e636(options = {}) {
-  const { adjectiveCount: adjectiveCount = 1, addAdverb: addAdverb = false, separator: separator = "" } = options;
+/**
+ * Returns the min length for a set of options
+ *
+ * @param {Options} [options = {}]
+ * @returns {number}
+ */
+function minLength(options) {
+  if (options === void 0) {
+    options = {};
+  }
+  var _a = options.adjectiveCount,
+    adjectiveCount = _a === void 0 ? 1 : _a,
+    _b = options.addAdverb,
+    addAdverb = _b === void 0 ? false : _b,
+    _c = options.separator,
+    separator = _c === void 0 ? "" : _c;
   return (
-    $442b29e0dcda3a2b$var$shortest($442b29e0dcda3a2b$export$91076e975f93bb).length * adjectiveCount +
+    shortest(exports.adjectives).length * adjectiveCount +
     adjectiveCount * separator.length +
-    $442b29e0dcda3a2b$var$shortest($442b29e0dcda3a2b$export$5cb7c19fcb84c9cd).length +
+    shortest(exports.nouns).length +
     separator.length +
-    $442b29e0dcda3a2b$var$shortest($442b29e0dcda3a2b$export$95c304d9ad46d333).length +
-    (addAdverb
-      ? $442b29e0dcda3a2b$var$shortest($442b29e0dcda3a2b$export$b9b382fe089b530c).length + separator.length
-      : 0)
+    shortest(exports.verbs).length +
+    (addAdverb ? shortest(exports.adverbs).length + separator.length : 0)
   );
 }
-var $442b29e0dcda3a2b$export$2e2bcd8739ae039 = $442b29e0dcda3a2b$export$d766a80fb8e0ff4e;
-
+exports.default = humanId;
 //# sourceMappingURL=index.js.map
