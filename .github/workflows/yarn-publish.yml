@@ -17,16 +17,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Run install
+      - name: Run install yarn
         uses: borales/actions-yarn@v4
         with:
           cmd: install # will run `yarn install` command
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }} # if needed
-      - with:
+      - name: Run build
+        with:
           cmd: build
         uses: borales/actions-yarn@v4
-      - uses: borales/actions-yarn@v4
+      - name: Run Test
+        uses: borales/actions-yarn@v4
         with:
           cmd: test
 
@@ -39,16 +41,18 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
-      - name: Run install
+      - name: Run install yarn
         uses: borales/actions-yarn@v4
         with:
           cmd: install # will run `yarn install` command
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }} # if needed
-      - with:
+      - name: Run build
+        with:
           cmd: build
         uses: borales/actions-yarn@v4
-      - with:
+      - name: Publish
+        with:
           cmd: publish
         uses: borales/actions-yarn@v4
         env:
