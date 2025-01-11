@@ -1,4 +1,4 @@
-export const adjectives: string[] = [
+const $e7fe59f51a2d42ac$export$91076e975f93bb = [
   "afraid",
   "big",
   "better",
@@ -46,8 +46,7 @@ export const adjectives: string[] = [
   "wide",
   "wise",
 ];
-
-export const nouns: string[] = [
+const $e7fe59f51a2d42ac$export$5cb7c19fcb84c9cd = [
   "algorithms",
   "applications",
   "archives",
@@ -184,8 +183,7 @@ export const nouns: string[] = [
   "workflows",
   "zones",
 ];
-
-export const verbs: string[] = [
+const $e7fe59f51a2d42ac$export$95c304d9ad46d333 = [
   "accept",
   "add",
   "allow",
@@ -257,8 +255,7 @@ export const verbs: string[] = [
   "view",
   "write",
 ];
-
-export const adverbs: string[] = [
+const $e7fe59f51a2d42ac$export$b9b382fe089b530c = [
   "accurately",
   "algorithmically",
   "asynchronously",
@@ -293,94 +290,84 @@ export const adverbs: string[] = [
   "virtually",
   "wirelessly",
 ];
-
-function random(arr: string[]): string {
+function $e7fe59f51a2d42ac$var$random(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
-
-function longest(arr: string[]) {
+function $e7fe59f51a2d42ac$var$longest(arr) {
   return arr.reduce((a, b) => (a.length > b.length ? a : b));
 }
-
-function shortest(arr: string[]) {
+function $e7fe59f51a2d42ac$var$shortest(arr) {
   return arr.reduce((a, b) => (a.length < b.length ? a : b));
 }
-
-export interface Options {
-  separator?: string;
-  capitalize?: boolean;
-  adjectiveCount?: number;
-  addAdverb?: boolean;
-}
-
-/**
- * Returns the human-id
- *
- * @param {Options|string|boolean} [options = {}]
- * @returns {string}
- */
-export function humanId(options: Options | string | boolean = {}): string {
-  if (typeof options === "string") options = { separator: options };
-  if (typeof options === "boolean") options = { capitalize: options };
-  const { separator = "", capitalize = true, adjectiveCount = 1, addAdverb = false } = options;
-
+function $e7fe59f51a2d42ac$export$d766a80fb8e0ff4e(options = {}) {
+  if (typeof options === "string")
+    options = {
+      separator: options,
+    };
+  if (typeof options === "boolean")
+    options = {
+      capitalize: options,
+    };
+  const {
+    separator: separator = "",
+    capitalize: capitalize = true,
+    adjectiveCount: adjectiveCount = 1,
+    addAdverb: addAdverb = false,
+  } = options;
   let res = [
-    ...[...Array(adjectiveCount)].map((_) => random(adjectives)),
-    random(nouns),
-    random(verbs),
-    ...(addAdverb ? [random(adverbs)] : []),
+    ...[...Array(adjectiveCount)].map((_) => $e7fe59f51a2d42ac$var$random($e7fe59f51a2d42ac$export$91076e975f93bb)),
+    $e7fe59f51a2d42ac$var$random($e7fe59f51a2d42ac$export$5cb7c19fcb84c9cd),
+    $e7fe59f51a2d42ac$var$random($e7fe59f51a2d42ac$export$95c304d9ad46d333),
+    ...(addAdverb ? [$e7fe59f51a2d42ac$var$random($e7fe59f51a2d42ac$export$b9b382fe089b530c)] : []),
   ];
-
   if (capitalize) res = res.map((r) => r.charAt(0).toUpperCase() + r.substr(1));
-
   return res.join(separator);
 }
-
-/**
- * Returns the pool size for a set of options
- *
- * @param {Options} [options = {}]
- * @returns {number}
- */
-export function poolSize(options: Options = {}): number {
-  const { adjectiveCount = 1, addAdverb = false } = options;
-  return adjectives.length * adjectiveCount * nouns.length * verbs.length * (addAdverb ? adverbs.length : 1);
-}
-
-/**
- * Returns the max length for a set of options
- *
- * @param {Options} [options = {}]
- * @returns {number}
- */
-export function maxLength(options: Options = {}): number {
-  const { adjectiveCount = 1, addAdverb = false, separator = "" } = options;
+function $e7fe59f51a2d42ac$export$2b85bff0de2bf05a(options = {}) {
+  const { adjectiveCount: adjectiveCount = 1, addAdverb: addAdverb = false } = options;
   return (
-    longest(adjectives).length * adjectiveCount +
-    adjectiveCount * separator.length +
-    longest(nouns).length +
-    separator.length +
-    longest(verbs).length +
-    (addAdverb ? longest(adverbs).length + separator.length : 0)
+    $e7fe59f51a2d42ac$export$91076e975f93bb.length *
+    adjectiveCount *
+    $e7fe59f51a2d42ac$export$5cb7c19fcb84c9cd.length *
+    $e7fe59f51a2d42ac$export$95c304d9ad46d333.length *
+    (addAdverb ? $e7fe59f51a2d42ac$export$b9b382fe089b530c.length : 1)
   );
 }
-
-/**
- * Returns the min length for a set of options
- *
- * @param {Options} [options = {}]
- * @returns {number}
- */
-export function minLength(options: Options = {}): number {
-  const { adjectiveCount = 1, addAdverb = false, separator = "" } = options;
+function $e7fe59f51a2d42ac$export$c9f461152c658a8b(options = {}) {
+  const { adjectiveCount: adjectiveCount = 1, addAdverb: addAdverb = false, separator: separator = "" } = options;
   return (
-    shortest(adjectives).length * adjectiveCount +
+    $e7fe59f51a2d42ac$var$longest($e7fe59f51a2d42ac$export$91076e975f93bb).length * adjectiveCount +
     adjectiveCount * separator.length +
-    shortest(nouns).length +
+    $e7fe59f51a2d42ac$var$longest($e7fe59f51a2d42ac$export$5cb7c19fcb84c9cd).length +
     separator.length +
-    shortest(verbs).length +
-    (addAdverb ? shortest(adverbs).length + separator.length : 0)
+    $e7fe59f51a2d42ac$var$longest($e7fe59f51a2d42ac$export$95c304d9ad46d333).length +
+    (addAdverb ? $e7fe59f51a2d42ac$var$longest($e7fe59f51a2d42ac$export$b9b382fe089b530c).length + separator.length : 0)
   );
 }
+function $e7fe59f51a2d42ac$export$8fe860a115a1e636(options = {}) {
+  const { adjectiveCount: adjectiveCount = 1, addAdverb: addAdverb = false, separator: separator = "" } = options;
+  return (
+    $e7fe59f51a2d42ac$var$shortest($e7fe59f51a2d42ac$export$91076e975f93bb).length * adjectiveCount +
+    adjectiveCount * separator.length +
+    $e7fe59f51a2d42ac$var$shortest($e7fe59f51a2d42ac$export$5cb7c19fcb84c9cd).length +
+    separator.length +
+    $e7fe59f51a2d42ac$var$shortest($e7fe59f51a2d42ac$export$95c304d9ad46d333).length +
+    (addAdverb
+      ? $e7fe59f51a2d42ac$var$shortest($e7fe59f51a2d42ac$export$b9b382fe089b530c).length + separator.length
+      : 0)
+  );
+}
+var $e7fe59f51a2d42ac$export$2e2bcd8739ae039 = $e7fe59f51a2d42ac$export$d766a80fb8e0ff4e;
 
-export default humanId;
+export {
+  $e7fe59f51a2d42ac$export$91076e975f93bb as adjectives,
+  $e7fe59f51a2d42ac$export$5cb7c19fcb84c9cd as nouns,
+  $e7fe59f51a2d42ac$export$95c304d9ad46d333 as verbs,
+  $e7fe59f51a2d42ac$export$b9b382fe089b530c as adverbs,
+  $e7fe59f51a2d42ac$export$d766a80fb8e0ff4e as humanId,
+  $e7fe59f51a2d42ac$export$2b85bff0de2bf05a as poolSize,
+  $e7fe59f51a2d42ac$export$c9f461152c658a8b as maxLength,
+  $e7fe59f51a2d42ac$export$8fe860a115a1e636 as minLength,
+  $e7fe59f51a2d42ac$export$2e2bcd8739ae039 as default,
+};
+//# sourceMappingURL=index.mjs.map

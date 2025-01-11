@@ -1,14 +1,21 @@
 {
-  "name": "human-id",
-  "version": "4.1.1",
+  "name": "tech-human-id",
+  "version": "5.0.0",
   "description": "Returns from a pool of 15m human-readable IDs",
-  "main": "dist/index.js",
+  "browser": "dist/index.js",
+  "main": "dist/index.cjs",
+  "source": "index.ts",
   "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
   "bin": "dist/cli.js",
   "scripts": {
-    "dev": "tsc -w",
-    "build": "rm -rf ./dist && tsc",
-    "examples": "tsc && node ./dist/examples.js"
+    "watch": "parcel watch",
+    "prebuild": "yarn clean",
+    "build": "parcel build",
+    "clean": "rimraf dist/",
+    "examples": "tsc && node ./dist/examples.js",
+    "prepare": "husky",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,12 +28,43 @@
     "identifier"
   ],
   "author": "RienNeVaPlus <?@rienneva.plus>",
-  "homepage": "https://github.com/RienNeVaPlus/human-id#readme",
+  "contributors": [
+    {
+      "name": "Abhisek Pattnaik",
+      "email": "abhisekp@engineer.com",
+      "url": "https://about.me/abhisekp"
+    }
+  ],
+  "browserslist": [
+    "> 0.5%, last 2 versions, not dead"
+  ],
+  "homepage": "https://github.com/abhisekp/tech-human-id#readme",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/RienNeVaPlus/human-id/issues"
+    "url": "https://github.com/abhisekp/tech-human-id/issues"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   },
   "devDependencies": {
-    "typescript": "^4.4.4"
-  }
+    "@parcel/bundler-library": "^2.13.3",
+    "@parcel/packager-ts": "2.13.3",
+    "@parcel/transformer-typescript-types": "2.13.3",
+    "@types/jest": "^29.5.14",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "husky": "^9.1.7",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.3.0",
+    "parcel": "^2.13.3",
+    "prettier": "3.4.2",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
