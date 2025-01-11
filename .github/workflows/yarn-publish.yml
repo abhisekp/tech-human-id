@@ -49,7 +49,7 @@ jobs:
           cmd: build
         uses: borales/actions-yarn@v4
       - with:
-          cmd: npm publish
+          cmd: publish
         uses: borales/actions-yarn@v4
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
