@@ -4,7 +4,7 @@
 name: Publish Node.js Package
 
 on:
-  push:
+  create:
     tags: # This triggers the workflow on any newly created tag
       - "*"
   workflow_dispatch:
