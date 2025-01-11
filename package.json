@@ -1,6 +1,6 @@
 {
   "name": "tech-human-id",
-  "version": "5.0.6",
+  "version": "5.0.7",
   "description": "Returns from a pool of 15m human-readable IDs",
   "browser": "dist/index.js",
   "main": "dist/index.cjs",
@@ -49,7 +49,7 @@
   "browserslist": [
     "> 0.5%, last 2 versions, not dead"
   ],
-  "homepage": "https://github.com/abhisekp/tech-human-id#readme",
+  "homepage": "https://tech-human-id.js.org",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/abhisekp/tech-human-id/issues"
