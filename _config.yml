@@ -1,1 +1,4 @@
 theme: jekyll-theme-cayman
+title: Human-Readable Tech Identifiers
+description: Using words to identify datasets (instead of numbers) provides various advantages when humans are involved, ie increased distinction and rememberability.
+show_downloads: false

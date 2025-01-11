@@ -87,6 +87,10 @@ npm install tech-human-id
 
 ## Usage
 
+<!--
+
+# TODO
+
 ### Command line
 
 ```sh
@@ -97,11 +101,16 @@ npx tech-human-id lowercase + 2x
 # rare+geckos+jam
 # healthy+cows+smile
 ```
+-->
 
 ### Programmatic
 
 ```js
+// ES6+
 import { humanId, poolSize, minLength, maxLength } from "tech-human-id";
+
+// CommonJS
+// const { humanId, poolSize, minLength, maxLength } = require("tech-human-id");
 
 // LightStructuresCreate
 console.log(humanId());

@@ -1,6 +1,6 @@
 {
   "name": "tech-human-id",
-  "version": "5.0.5",
+  "version": "5.0.6",
   "description": "Returns from a pool of 15m human-readable IDs",
   "browser": "dist/index.js",
   "main": "dist/index.cjs",
