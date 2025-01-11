@@ -8,10 +8,12 @@
 > NOTE: This is a fork from https://github.com/RienNeVaPlus/human-id  
 > This includes tech terms only. Check the examples below.
 
-> Using words to identify datasets (instead of numbers) provides various advantages when humans are involved, ie increased distinction and rememberability.
+> Using words to identify datasets (instead of numbers) provides various advantages when humans are involved, ie
+> increased distinction and rememberability.
 
 Human-ID generates readable strings by chaining common short words of the english language in a semi-meaningful way.
-The result is concatenated of `adjective + noun + verb` resulting in a [minimum](#extended-pool-size) pool size of **1 080 000** possible combinations.
+The result is concatenated of `adjective + noun + verb` resulting in a [minimum](#extended-pool-size) pool size of **28
+690 200** possible combinations.
 
 - **SFW**: no bad words; family friendly results
 - No dependencies
@@ -101,27 +103,30 @@ npx tech-human-id lowercase + 2x
 ```js
 import { humanId, poolSize, minLength, maxLength } from "tech-human-id";
 
-// RareGeckosJam
-humanId();
+// LightStructuresCreate
+console.log(humanId());
 
-// Rare~Geckos~Jam
+// Tough~Frameworks~Export
 // alias for { separator: '~' }
-humanId("~");
+console.log(humanId("~"));
 
-// rare-geckos-jam
-humanId({
-  separator: "-",
-  capitalize: false,
-});
+// shiny-machines-integrate
+console.log(
+  humanId({
+    separator: "-",
+    capitalize: false,
+  }),
+);
 
-poolSize(); // 15,000,000
-minLength(); //          8
-maxLength(); //         19
+console.log(poolSize()); // 4,34,700
+console.log(minLength()); // 10
+console.log(maxLength()); // 28
 ```
 
 ## Extended Pool Size
 
-For most cases, the default pool size should be large enough. However, the options `adjectiveCount` and `addAdverb` can be utilized to increase the pool size for the price of the string length.
+For most cases, the default pool size should be large enough. However, the options `adjectiveCount` and `addAdverb`
+can be utilized to increase the pool size for the price of the string length.
 
 ```js
 const options = {
@@ -130,18 +135,22 @@ const options = {
   separator: ".",
 };
 
-humanId(options); // Ten.Wet.Files.Cheer.Lazily
-poolSize(options); // 630,000,000
-minLength(options); //          20
-maxLength(options); //          41
+console.log(humanId(options)); // Fast.Fast.Queues.Compile.Optimally
+console.log(poolSize(options)); // 28,690,200
+console.log(minLength(options)); // 24
+console.log(maxLength(options)); // 54
 ```
+
+<!--
+
+# TODO
 
 ## Executable arguments
 
 Use the following arguments to modify the default options or print multiple results.
 
 | Argument                   | Effect                                            |
-| -------------------------- | ------------------------------------------------- |
+|----------------------------|---------------------------------------------------|
 | `a`, `adverb`, `addAdverb` | Sets `option.addAdverb` to `true`                 |
 | `l`, `lower`, `lowercase`  | Sets `option.capitalize` to `false`               |
 | `space`                    | Sets `option.separator` to an empty space ` `     |
@@ -157,6 +166,7 @@ npx tech-human-id adverb lower 2 _ 3x
 # cuddly_spicy_boxes_wave_politely
 # sweet_fair_wombats_fetch_bravely
 ```
+-->
 
 ## API
 
