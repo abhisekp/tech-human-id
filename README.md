@@ -15,27 +15,65 @@ The result is concatenated of `adjective + noun + verb` resulting in a [minimum]
 
 ## Examples
 
-- FortyGhostsTalk
-- CalmSnailsDream
-- TastyRocksSparkle
-- HealthyCowsSmile
-- AfraidWallsExist
-- StrangeCarsRush
-- TwoLizardsSing
-- HappyLionsJump
+```js
+humanId();
+```
+
+- ShortRecordsReport
+- VastTasksEnter
+- HugePixelsUse
+- FastGraphsAccept
+- ShinyPluginsTrack
+- ThinCryptosCreate
+- ModernHeadersCopy
+- WideDevicesLog
+- SmartPacketsUpgrade
+
+---
+
+```js
+humanId("-"); // or { "separator": "-" }
+```
+
+- Bright-Backends-Import
+- Full-Functions-Start
+- Huge-Extensions-Upload
+- Solid-Instances-Select
+- Smart-Patterns-Monitor
+- Swift-Tools-Allow
+- Clear-Systems-Program
+- Clear-Graphs-Change
+- Smooth-Keys-Store
+- Thin-Programs-Open
+
+---
+
+```js
+humanId(false); // or { "capitalize": false }
+```
+
+- fastheaderstrack
+- colddatabasesmake
+- fastindexeschange
+- quickstandardsprogram
+- freedomainslog
+- afraidclassesprogram
+- hotdatasetssearch
+- opencryptosconnect
+- neatcomponentsbuild
 
 ## Install
 
 Yarn
 
 ```
-yarn add human-id
+yarn add tech-human-id
 ```
 
 NPM
 
 ```
-npm install human-id
+npm install tech-human-id
 ```
 
 ## Usage
@@ -43,10 +81,10 @@ npm install human-id
 ### Command line
 
 ```sh
-npx human-id
+npx tech-human-id
 # RareGeckosJam
 
-npx human-id lowercase + 2x
+npx tech-human-id lowercase + 2x
 # rare+geckos+jam
 # healthy+cows+smile
 ```
@@ -54,7 +92,7 @@ npx human-id lowercase + 2x
 ### Programmatic
 
 ```js
-import { humanId, poolSize, minLength, maxLength } from "human-id";
+import { humanId, poolSize, minLength, maxLength } from "tech-human-id";
 
 // RareGeckosJam
 humanId();
@@ -107,7 +145,7 @@ Use the following arguments to modify the default options or print multiple resu
 ### Example
 
 ```bash
-npx human-id adverb lower 2 _ 3x
+npx tech-human-id adverb lower 2 _ 3x
 # clever_shaggy_memes_sit_quietly
 # cuddly_spicy_boxes_wave_politely
 # sweet_fair_wombats_fetch_bravely
