@@ -1,75 +1,125 @@
 "use strict";
-var __spreadArray =
-  (this && this.__spreadArray) ||
-  function (to, from, pack) {
-    if (pack || arguments.length === 2)
-      for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-          if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-          ar[i] = from[i];
-        }
-      }
-    return to.concat(ar || Array.prototype.slice.call(from));
-  };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.adverbs = exports.verbs = exports.nouns = exports.adjectives = void 0;
-exports.humanId = humanId;
-exports.poolSize = poolSize;
-exports.maxLength = maxLength;
-exports.minLength = minLength;
-exports.adjectives = [
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __pow = Math.pow;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// index.ts
+var index_exports = {};
+__export(index_exports, {
+  adjectives: () => adjectives2,
+  adverbs: () => adverbs2,
+  default: () => index_default,
+  humanId: () => humanId,
+  maxLength: () => maxLength,
+  minLength: () => minLength,
+  nouns: () => nouns2,
+  poolSize: () => poolSize,
+  verbs: () => verbs2
+});
+module.exports = __toCommonJS(index_exports);
+
+// data/adjectives.ts
+var adjectives = [
+  "accurate",
   "afraid",
-  "big",
+  "agile",
   "better",
+  "big",
   "bright",
+  "clean",
   "clear",
   "clever",
   "cold",
+  "compact",
   "cool",
+  "creative",
   "dark",
   "deep",
   "dirty",
   "dry",
   "dull",
+  "dynamic",
+  "elegant",
+  "efficient",
   "fast",
+  "flexible",
   "free",
   "fresh",
+  "friendly",
   "full",
+  "graceful",
   "green",
   "hot",
   "huge",
+  "intelligent",
   "light",
+  "logical",
   "long",
   "modern",
+  "modular",
   "neat",
   "new",
+  "nimble",
   "open",
+  "powerful",
+  "precise",
   "public",
   "quick",
   "ready",
+  "reliable",
+  "robust",
+  "scalable",
+  "secure",
   "sharp",
   "shiny",
   "short",
   "silent",
+  "simple",
+  "sleek",
   "slick",
   "slow",
   "smart",
   "smooth",
   "solid",
+  "stable",
   "strong",
+  "sustainable",
   "swift",
   "thin",
+  "timeless",
   "tough",
   "true",
+  "versatile",
   "vast",
+  "vibrant",
+  "virtual",
   "wide",
-  "wise",
+  "wise"
 ];
-exports.nouns = [
+
+// data/nouns.ts
+var nouns = [
   "algorithms",
+  "analytics",
   "applications",
   "archives",
   "arrays",
+  "assets",
   "backends",
   "batteries",
   "binaries",
@@ -77,6 +127,7 @@ exports.nouns = [
   "branches",
   "browsers",
   "buffers",
+  "buttons",
   "bytes",
   "cables",
   "caches",
@@ -87,26 +138,34 @@ exports.nouns = [
   "clouds",
   "clusters",
   "codes",
+  "commands",
   "compilers",
   "components",
+  "configurations",
+  "connections",
   "controllers",
   "cores",
   "cryptos",
   "dashboards",
   "databases",
   "datasets",
+  "dependencies",
   "devices",
+  "directories",
   "displays",
   "domains",
   "drivers",
   "emails",
   "engines",
+  "environments",
+  "errors",
   "extensions",
   "fields",
   "files",
+  "filters",
   "folders",
-  "functions",
   "frameworks",
+  "functions",
   "gateways",
   "generators",
   "graphs",
@@ -129,6 +188,7 @@ exports.nouns = [
   "machines",
   "mails",
   "mainframes",
+  "maps",
   "memories",
   "methods",
   "microservices",
@@ -171,6 +231,8 @@ exports.nouns = [
   "software",
   "sources",
   "sockets",
+  "solutions",
+  "specifications",
   "stacks",
   "standards",
   "storages",
@@ -192,6 +254,7 @@ exports.nouns = [
   "uploads",
   "urls",
   "users",
+  "utilities",
   "variables",
   "vectors",
   "views",
@@ -200,52 +263,75 @@ exports.nouns = [
   "widgets",
   "windows",
   "workflows",
-  "zones",
+  "zones"
 ];
-exports.verbs = [
+
+// data/verbs.ts
+var verbs = [
   "accept",
   "add",
+  "adjust",
   "allow",
   "analyze",
+  "authenticate",
+  "backup",
   "build",
   "calculate",
   "change",
   "check",
   "click",
   "compile",
+  "compress",
   "connect",
+  "convert",
   "copy",
   "create",
   "debug",
+  "decrypt",
   "delete",
   "design",
   "develop",
+  "disable",
+  "display",
   "download",
   "edit",
   "encode",
+  "encrypt",
   "enter",
   "execute",
   "export",
+  "extract",
   "fix",
   "generate",
+  "hide",
   "import",
+  "index",
   "install",
   "integrate",
   "invent",
   "join",
   "launch",
+  "link",
   "load",
   "log",
   "make",
+  "manage",
+  "merge",
   "monitor",
   "move",
+  "navigate",
   "open",
   "optimize",
+  "parse",
+  "perform",
   "post",
   "press",
+  "process",
   "program",
   "push",
   "read",
+  "reboot",
+  "reconfigure",
   "repair",
   "report",
   "reset",
@@ -254,46 +340,73 @@ exports.verbs = [
   "save",
   "scan",
   "search",
+  "secure",
   "select",
   "send",
   "setup",
   "share",
+  "sort",
   "start",
   "stop",
   "store",
   "stream",
+  "submit",
   "switch",
   "sync",
   "test",
   "track",
+  "transform",
   "type",
+  "uninstall",
   "update",
   "upload",
   "upgrade",
   "use",
   "view",
-  "write",
+  "write"
 ];
-exports.adverbs = [
+
+// data/adverbs.ts
+var adverbs = [
   "accurately",
+  "adaptively",
   "algorithmically",
   "asynchronously",
   "automatically",
+  "autonomously",
+  "brilliantly",
+  "clearly",
   "concurrently",
   "consistently",
+  "continuously",
+  "creatively",
+  "customizably",
   "dependably",
   "digitally",
   "dynamically",
   "efficiently",
+  "exceptionally",
+  "experimentally",
+  "extensively",
   "fluently",
+  "frequently",
+  "functionally",
+  "gracefully",
+  "incrementally",
+  "independently",
+  "innovatively",
   "intelligently",
+  "interactively",
   "logically",
   "modularly",
   "optimally",
   "parallelly",
+  "periodically",
   "precisely",
+  "predictably",
   "programmatically",
   "promptly",
+  "proactively",
   "rapidly",
   "reliably",
   "remotely",
@@ -305,135 +418,64 @@ exports.adverbs = [
   "sequentially",
   "smoothly",
   "statically",
+  "strategically",
   "synchronously",
+  "systematically",
+  "theoretically",
+  "thoroughly",
+  "transparently",
+  "uniquely",
   "virtually",
-  "wirelessly",
+  "wirelessly"
 ];
+
+// index.ts
+var adjectives2 = adjectives;
+var nouns2 = nouns;
+var verbs2 = verbs;
+var adverbs2 = adverbs;
 function random(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 function longest(arr) {
-  return arr.reduce(function (a, b) {
-    return a.length > b.length ? a : b;
-  });
+  return arr.reduce((a, b) => a.length > b.length ? a : b);
 }
 function shortest(arr) {
-  return arr.reduce(function (a, b) {
-    return a.length < b.length ? a : b;
-  });
+  return arr.reduce((a, b) => a.length < b.length ? a : b);
 }
-/**
- * Returns the human-id
- *
- * @param {Options|string|boolean} [options = {}]
- * @returns {string}
- */
-function humanId(options) {
-  if (options === void 0) {
-    options = {};
+function validateAdjectiveCount(adjectiveCount) {
+  if (!Number.isInteger(adjectiveCount) || adjectiveCount < 0 || adjectiveCount > 4294967295) {
+    throw new RangeError("adjectiveCount must be a non-negative integer smaller than 2^32");
   }
+}
+function humanId(options = {}) {
   if (typeof options === "string") options = { separator: options };
   if (typeof options === "boolean") options = { capitalize: options };
-  var _a = options.separator,
-    separator = _a === void 0 ? "" : _a,
-    _b = options.capitalize,
-    capitalize = _b === void 0 ? true : _b,
-    _c = options.adjectiveCount,
-    adjectiveCount = _c === void 0 ? 1 : _c,
-    _d = options.addAdverb,
-    addAdverb = _d === void 0 ? false : _d;
-  var res = __spreadArray(
-    __spreadArray(
-      __spreadArray(
-        [],
-        __spreadArray([], Array(adjectiveCount), true).map(function (_) {
-          return random(exports.adjectives);
-        }),
-        true,
-      ),
-      [random(exports.nouns), random(exports.verbs)],
-      false,
-    ),
-    addAdverb ? [random(exports.adverbs)] : [],
-    true,
-  );
-  if (capitalize)
-    res = res.map(function (r) {
-      return r.charAt(0).toUpperCase() + r.substr(1);
-    });
+  const { separator = "", capitalize = true, adjectiveCount = 1, addAdverb = false } = options;
+  validateAdjectiveCount(adjectiveCount);
+  let res = [
+    ...[...Array(adjectiveCount)].map((_) => random(adjectives2)),
+    random(nouns2),
+    random(verbs2),
+    ...addAdverb ? [random(adverbs2)] : []
+  ];
+  if (capitalize) res = res.map((r) => r.charAt(0).toUpperCase() + r.slice(1));
   return res.join(separator);
 }
-/**
- * Returns the pool size for a set of options
- *
- * @param {Options} [options = {}]
- * @returns {number}
- */
-function poolSize(options) {
-  if (options === void 0) {
-    options = {};
-  }
-  var _a = options.adjectiveCount,
-    adjectiveCount = _a === void 0 ? 1 : _a,
-    _b = options.addAdverb,
-    addAdverb = _b === void 0 ? false : _b;
-  return (
-    exports.adjectives.length *
-    adjectiveCount *
-    exports.nouns.length *
-    exports.verbs.length *
-    (addAdverb ? exports.adverbs.length : 1)
-  );
+function poolSize(options = {}) {
+  const { adjectiveCount = 1, addAdverb = false } = options;
+  validateAdjectiveCount(adjectiveCount);
+  return __pow(adjectives2.length, adjectiveCount) * nouns2.length * verbs2.length * (addAdverb ? adverbs2.length : 1);
 }
-/**
- * Returns the max length for a set of options
- *
- * @param {Options} [options = {}]
- * @returns {number}
- */
-function maxLength(options) {
-  if (options === void 0) {
-    options = {};
-  }
-  var _a = options.adjectiveCount,
-    adjectiveCount = _a === void 0 ? 1 : _a,
-    _b = options.addAdverb,
-    addAdverb = _b === void 0 ? false : _b,
-    _c = options.separator,
-    separator = _c === void 0 ? "" : _c;
-  return (
-    longest(exports.adjectives).length * adjectiveCount +
-    adjectiveCount * separator.length +
-    longest(exports.nouns).length +
-    separator.length +
-    longest(exports.verbs).length +
-    (addAdverb ? longest(exports.adverbs).length + separator.length : 0)
-  );
+function maxLength(options = {}) {
+  const { adjectiveCount = 1, addAdverb = false, separator = "" } = options;
+  validateAdjectiveCount(adjectiveCount);
+  return longest(adjectives2).length * adjectiveCount + adjectiveCount * separator.length + longest(nouns2).length + separator.length + longest(verbs2).length + (addAdverb ? longest(adverbs2).length + separator.length : 0);
 }
-/**
- * Returns the min length for a set of options
- *
- * @param {Options} [options = {}]
- * @returns {number}
- */
-function minLength(options) {
-  if (options === void 0) {
-    options = {};
-  }
-  var _a = options.adjectiveCount,
-    adjectiveCount = _a === void 0 ? 1 : _a,
-    _b = options.addAdverb,
-    addAdverb = _b === void 0 ? false : _b,
-    _c = options.separator,
-    separator = _c === void 0 ? "" : _c;
-  return (
-    shortest(exports.adjectives).length * adjectiveCount +
-    adjectiveCount * separator.length +
-    shortest(exports.nouns).length +
-    separator.length +
-    shortest(exports.verbs).length +
-    (addAdverb ? shortest(exports.adverbs).length + separator.length : 0)
-  );
+function minLength(options = {}) {
+  const { adjectiveCount = 1, addAdverb = false, separator = "" } = options;
+  validateAdjectiveCount(adjectiveCount);
+  return shortest(adjectives2).length * adjectiveCount + adjectiveCount * separator.length + shortest(nouns2).length + separator.length + shortest(verbs2).length + (addAdverb ? shortest(adverbs2).length + separator.length : 0);
 }
-exports.default = humanId;
+var index_default = humanId;
 //# sourceMappingURL=index.js.map

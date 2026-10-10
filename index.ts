@@ -1,10 +1,14 @@
-export const adjectives: string[] = require("./data/adjectives").adjectives;
+import { adjectives as adjectiveWords } from "./data/adjectives";
+import { nouns as nounWords } from "./data/nouns";
+import { verbs as verbWords } from "./data/verbs";
+import { adverbs as adverbWords } from "./data/adverbs";
 
-export const nouns: string[] = require("./data/nouns").nouns;
+export const adjectives: string[] = adjectiveWords;
+export const nouns: string[] = nounWords;
 
-export const verbs: string[] = require("./data/verbs").verbs;
+export const verbs: string[] = verbWords;
 
-export const adverbs: string[] = require("./data/adverbs").adverbs;
+export const adverbs: string[] = adverbWords;
 
 function random(arr: string[]): string {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -25,6 +29,12 @@ export interface Options {
   addAdverb?: boolean;
 }
 
+function validateAdjectiveCount(adjectiveCount: number): void {
+  if (!Number.isInteger(adjectiveCount) || adjectiveCount < 0 || adjectiveCount > 0xffffffff) {
+    throw new RangeError("adjectiveCount must be a non-negative integer smaller than 2^32");
+  }
+}
+
 /**
  * Returns the human-id
  *
@@ -35,6 +45,7 @@ export function humanId(options: Options | string | boolean = {}): string {
   if (typeof options === "string") options = { separator: options };
   if (typeof options === "boolean") options = { capitalize: options };
   const { separator = "", capitalize = true, adjectiveCount = 1, addAdverb = false } = options;
+  validateAdjectiveCount(adjectiveCount);
 
   let res = [
     ...[...Array(adjectiveCount)].map((_) => random(adjectives)),
@@ -43,7 +54,7 @@ export function humanId(options: Options | string | boolean = {}): string {
     ...(addAdverb ? [random(adverbs)] : []),
   ];
 
-  if (capitalize) res = res.map((r) => r.charAt(0).toUpperCase() + r.substr(1));
+  if (capitalize) res = res.map((r) => r.charAt(0).toUpperCase() + r.slice(1));
 
   return res.join(separator);
 }
@@ -56,7 +67,8 @@ export function humanId(options: Options | string | boolean = {}): string {
  */
 export function poolSize(options: Options = {}): number {
   const { adjectiveCount = 1, addAdverb = false } = options;
-  return adjectives.length * adjectiveCount * nouns.length * verbs.length * (addAdverb ? adverbs.length : 1);
+  validateAdjectiveCount(adjectiveCount);
+  return adjectives.length ** adjectiveCount * nouns.length * verbs.length * (addAdverb ? adverbs.length : 1);
 }
 
 /**
@@ -67,6 +79,7 @@ export function poolSize(options: Options = {}): number {
  */
 export function maxLength(options: Options = {}): number {
   const { adjectiveCount = 1, addAdverb = false, separator = "" } = options;
+  validateAdjectiveCount(adjectiveCount);
   return (
     longest(adjectives).length * adjectiveCount +
     adjectiveCount * separator.length +
@@ -85,6 +98,7 @@ export function maxLength(options: Options = {}): number {
  */
 export function minLength(options: Options = {}): number {
   const { adjectiveCount = 1, addAdverb = false, separator = "" } = options;
+  validateAdjectiveCount(adjectiveCount);
   return (
     shortest(adjectives).length * adjectiveCount +
     adjectiveCount * separator.length +

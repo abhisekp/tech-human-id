@@ -3,14 +3,26 @@ name: Create Tag
 on:
   workflow_dispatch:
   push:
-    branches:
-      - master
+    branches: [master]
+
+permissions:
+  contents: read
 
 jobs:
-  build:
+  validate:
+    uses: ./.github/workflows/ci.yml
+  tag:
+    if: github.ref == 'refs/heads/master'
+    needs: validate
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v2
-      - uses: Klemensas/action-autotag@380682c329fccb8b270e70e59d40d0e918dc5a0f
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          fetch-depth: 0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+      - name: Create a version tag only from current, validated master
+        run: node scripts/create-tag.mjs

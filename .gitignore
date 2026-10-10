@@ -178,4 +178,7 @@ dist
 ### CUSTOM IGNORES ###
 /tmp
 /temp
+/_site
+/work
+/.playwright-cli
 !/dist

@@ -1,221 +1,157 @@
 <h3 align="center">💃🆔</h3>
 
-## Human-Readable Tech Identifiers
+# Human-Readable Tech Identifiers
 
-[![Downloads](https://img.shields.io/npm/dm/tech-human-id)](https://www.npmjs.com/tech-human-id)
+[![Downloads](https://img.shields.io/npm/dm/tech-human-id)](https://www.npmjs.com/package/tech-human-id)
 [![License](https://img.shields.io/npm/l/tech-human-id)](https://github.com/abhisekp/tech-human-id/blob/master/LICENSE)
+[![Checks](https://github.com/abhisekp/tech-human-id/actions/workflows/ci.yml/badge.svg)](https://github.com/abhisekp/tech-human-id/actions/workflows/ci.yml)
 
-> NOTE: This is a fork from https://github.com/RienNeVaPlus/human-id  
-> This includes tech terms only. Check the examples below.
+Readable identifiers made from tech words: `AgilePacketsConnect`, `BrightBackendsBuild`, or `ReliableSystemsSync`.
 
-> Using words to identify datasets (instead of numbers) provides various advantages when humans are involved, ie
-> increased distinction and rememberability.
+A tech-focused fork of [human-id](https://github.com/RienNeVaPlus/human-id), with zero runtime dependencies, CommonJS and ESM builds, browser support, and TypeScript declarations.
 
-Human-ID generates readable strings by chaining common short words of the english language in a semi-meaningful way.
-The result is concatenated of `adjective + noun + verb` resulting in a [minimum](#extended-pool-size) pool size of **28
-690 200** possible combinations.
-
-- **SFW**: no bad words; family friendly results
-- No dependencies
-
-## Examples
-
-```ts
-import { humanId } from "tech-human-id";
-```
-
-```js
-humanId();
-```
-
-- ShortRecordsReport
-- VastTasksEnter
-- HugePixelsUse
-- FastGraphsAccept
-- ShinyPluginsTrack
-- ThinCryptosCreate
-- ModernHeadersCopy
-- WideDevicesLog
-- SmartPacketsUpgrade
-
----
-
-```js
-humanId("-"); // or { "separator": "-" }
-```
-
-- Bright-Backends-Import
-- Full-Functions-Start
-- Huge-Extensions-Upload
-- Solid-Instances-Select
-- Smart-Patterns-Monitor
-- Swift-Tools-Allow
-- Clear-Systems-Program
-- Clear-Graphs-Change
-- Smooth-Keys-Store
-- Thin-Programs-Open
-
----
-
-```js
-humanId(false); // or { "capitalize": false }
-```
-
-- fastheaderstrack
-- colddatabasesmake
-- fastindexeschange
-- quickstandardsprogram
-- freedomainslog
-- afraidclassesprogram
-- hotdatasetssearch
-- opencryptosconnect
-- neatcomponentsbuild
+**[Try the interactive playground →](https://tech-human-id.js.org)**
 
 ## Install
 
-Yarn
-
-```
-yarn add tech-human-id
-```
-
-NPM
-
-```
+```sh
 npm install tech-human-id
+# or: yarn add tech-human-id
+# or: pnpm add tech-human-id
 ```
 
-## Usage
+## Programmatic usage
 
-<!--
+```ts
+import humanId, { poolSize, minLength, maxLength } from "tech-human-id";
 
-# TODO
+// CommonJS:
+// const { humanId, poolSize, minLength, maxLength } = require("tech-human-id");
 
-### Command line
+humanId(); // e.g. AgilePacketsConnect
+humanId("-"); // e.g. Bright-Backends-Build
+humanId(false); // e.g. reliablesystemssync
+
+humanId({ separator: "-", capitalize: false });
+// e.g. agile-packets-connect
+
+poolSize(); // 1,080,000 word combinations
+minLength(); // 10
+maxLength(); // 37
+```
+
+Examples are illustrative; each call randomly chooses words. The default recipe is `adjective + noun + verb`.
+
+## Command line
 
 ```sh
 npx tech-human-id
-# RareGeckosJam
+# e.g. AgilePacketsConnect
 
-npx tech-human-id lowercase + 2x
-# rare+geckos+jam
-# healthy+cows+smile
-```
--->
+npx tech-human-id lowercase - 2x
+# e.g. agile-packets-connect
+#      bright-backends-build
 
-### Programmatic
+npx tech-human-id adverb lower 2 _ 3x
+# Three IDs, each with two adjectives, a noun, a verb, and an adverb
 
-```js
-// ES6+
-import { humanId, poolSize, minLength, maxLength } from "tech-human-id";
-
-// CommonJS
-// const { humanId, poolSize, minLength, maxLength } = require("tech-human-id");
-
-// LightStructuresCreate
-console.log(humanId());
-
-// Tough~Frameworks~Export
-// alias for { separator: '~' }
-console.log(humanId("~"));
-
-// shiny-machines-integrate
-console.log(
-  humanId({
-    separator: "-",
-    capitalize: false,
-  }),
-);
-
-console.log(poolSize()); // 4,34,700
-console.log(minLength()); // 10
-console.log(maxLength()); // 28
+npx tech-human-id --help
+npx tech-human-id --version
 ```
 
-## Extended Pool Size
+| Argument                   | Effect                                                       |
+| -------------------------- | ------------------------------------------------------------ |
+| `a`, `adverb`, `addAdverb` | Add an adverb                                                |
+| `l`, `lower`, `lowercase`  | Use lowercase words                                          |
+| `space`                    | Separate words with a space                                  |
+| A non-negative integer     | Set adjective count; `0` generates a noun and verb           |
+| A single character         | Set the separator, unless it is a reserved alias or a number |
+| An integer followed by `x` | Generate that many IDs; `0x` prints none                     |
+| `-h`, `--help`             | Show usage                                                   |
+| `-v`, `--version`          | Show the package version                                     |
 
-For most cases, the default pool size should be large enough. However, the options `adjectiveCount` and `addAdverb`
-can be utilized to increase the pool size for the price of the string length.
+Aliases are case-insensitive. Unknown arguments and invalid counts print a concise error and exit with status 1. Use the JavaScript API for multi-character separators or reserved separator characters.
 
-```js
+## Options and API
+
+```ts
+interface Options {
+  separator?: string; // default: ""
+  capitalize?: boolean; // default: true
+  adjectiveCount?: number; // default: 1
+  addAdverb?: boolean; // default: false
+}
+```
+
+| Export                                                    | Behavior                                                                                                             |
+| --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `humanId(options?: Options \| string \| boolean): string` | Generate an ID. String shorthand sets the separator; boolean shorthand sets capitalization. Also the default export. |
+| `poolSize(options?: Options): number`                     | Number of possible word combinations for these options.                                                              |
+| `minLength(options?: Options): number`                    | Shortest possible ID length, including separators.                                                                   |
+| `maxLength(options?: Options): number`                    | Longest possible ID length, including separators.                                                                    |
+| `adjectives`, `nouns`, `verbs`, `adverbs`                 | Exported `string[]` word lists.                                                                                      |
+
+Adjective count must be an integer from `0` to `2 ** 32 - 1`; invalid values throw `RangeError` in all four functions. Keep counts small enough for practical ID generation. Existing exported word arrays remain mutable for compatibility; statistics reflect their current contents.
+
+The source lists contain 75 adjectives, 150 nouns, 96 verbs, and 59 adverbs. The default pool is `75 × 150 × 96 = 1,080,000`.
+
+```ts
 const options = {
   adjectiveCount: 2,
   addAdverb: true,
   separator: ".",
 };
 
-console.log(humanId(options)); // Fast.Fast.Queues.Compile.Optimally
-console.log(poolSize(options)); // 28,690,200
-console.log(minLength(options)); // 24
-console.log(maxLength(options)); // 54
+humanId(options); // e.g. Agile.Bright.Packets.Connect.Efficiently
+poolSize(options); // 4,779,000,000
+minLength(options); // 24
+maxLength(options); // 68
 ```
 
-<!--
+For `n` adjectives, the pool is `75 ** n × 150 × 96`, multiplied by `59` when an adverb is added. Repeated adjectives are allowed; order matters. Very large results follow normal JavaScript `number` precision and overflow behavior.
 
-# TODO
+## Choosing identifiers
 
-## Executable arguments
+Calls are independent and can repeat. Check existing records and retry when your application needs uniqueness. The pool counts word combinations; concatenating without separators can also make different combinations produce the same string.
 
-Use the following arguments to modify the default options or print multiple results.
+The generator uses `Math.random()`. Use a cryptographically secure generator for passwords, authentication tokens, or other secrets.
 
-| Argument                   | Effect                                            |
-|----------------------------|---------------------------------------------------|
-| `a`, `adverb`, `addAdverb` | Sets `option.addAdverb` to `true`                 |
-| `l`, `lower`, `lowercase`  | Sets `option.capitalize` to `false`               |
-| `space`                    | Sets `option.separator` to an empty space ` `     |
-| any number                 | Sets `option.adjectiveCount` to the given integer |
-| any single character       | Sets `option.separator` to the character          |
-| any number followed by `x` | Repeats the output `number` times                 |
+## Development
 
-### Example
+Use Node.js 22 or 24 and Yarn 1.22.22.
 
-```bash
-npx tech-human-id adverb lower 2 _ 3x
-# clever_shaggy_memes_sit_quietly
-# cuddly_spicy_boxes_wave_politely
-# sweet_fair_wombats_fetch_bravely
+```sh
+yarn install --frozen-lockfile
+yarn verify        # type checks, unit tests, release-gate tests, packed-install checks, builds
+yarn format:check
+yarn watch
+yarn examples
 ```
--->
 
-## API
+The lightweight build produces self-contained CommonJS, ESM, browser-compatible bundles, a CLI, and declarations. Built files continue to be tracked in `dist/`; regenerate and include them with source changes. The word lists remain in `data/`. Browser bundles target ES2015.
 
-#### `humanId(options?: string | Option): string`
+### GitHub Pages
 
-Generates a human ID. **Options** can be a `string` (separator), a `boolean` (capitalize) or an `Options` object of:
+`yarn build:site` creates `_site/` and refreshes the committed `site/library.mjs` from the real library source. The playground generates IDs locally and supports live options, copying, batch downloads, shared settings, code examples, and light/dark themes.
 
-- **separator** `string = ''` - Separates the words from each other
-- **capitalize** `boolean = true` - Whether to transform the first character of each word to upper case
-- **adjectiveCount** `number = 1` - How many adjectives to return
-- **addAdverb** `boolean = false` - Adds a fourth part to the id
+The root `index.html` and committed `site/` assets support the existing branch-based Pages setup. The **Deploy GitHub Pages** workflow reads the deployment mode and skips Actions deployment while branch-based deployment is selected. To use it, select **GitHub Actions** in Settings → Pages → Build and deployment. Keep the custom domain `tech-human-id.js.org`.
 
-_This function is also available as the default export_
+### Releases
 
-#### `poolSize(options?: string | Option): number`
+This source prepares the next patch release; local verification does not publish it.
 
-Returns the number of possible combinations for a given set of options.
+1. Merge the reviewed version change into `master`.
+2. **Create Tag** validates the package on Windows/Linux with Node 22/24, then creates `v<package version>` from current `master` if the tag does not already exist.
+3. Run **Publish Node.js Package** manually from `master`, entering that existing tag. Tags created using `GITHUB_TOKEN` do not trigger another workflow automatically. A version tag pushed by a maintainer also triggers the publishing workflow.
+4. The verification script from `master` checks that the tag matches the package version and that its commit is merged into `master` before checking out the release. All checks pass before the exact packed archive is passed to the publish job.
+5. The publish job uses the existing `NPM_TOKEN` secret and adds npm provenance. It does not rebuild the package or execute package lifecycle scripts.
 
-#### `minLength(options?: Option): number`
+Keep the token scoped to this package. npm trusted publishing can be configured later; this change preserves the existing authentication mechanism.
 
-The length of the shortest possible id for a given set of options.
+## Contributing
 
-#### `maxLength(options?: Option): number`
+Keep additions short, family friendly, and relevant to tech. Add words to the appropriate file in `data/`, run the checks, rebuild the package and site, and open a pull request.
 
-The length of the longest possible id for a given set of options.
+## License
 
-#### `adjectives: string[]`
-
-List of possible values for the first part of the human id.
-
-#### `nouns: string[]`
-
-List of possible values for the second part of the human id.
-
-#### `verbs: string[]`
-
-List of possible values for the third part of the human id.
-
-#### `adverbs: string[]`
-
-List of possible values for the optional fourth part of the human id.
-
-<h6 align="center">💃🆔</h6>
+MIT. Based on the work of RienNeVaPlus; tech vocabulary and maintenance by Abhisek Pattnaik. See [LICENSE](LICENSE).
