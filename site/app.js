@@ -230,6 +230,138 @@ $("theme-toggle").addEventListener("click", () => {
     /* Theme still works when storage is disabled. */
   }
 });
+function startTicker() {
+  const track = $("ticker-track");
+  const viewport = track.parentElement;
+  const motion = matchMedia("(prefers-reduced-motion: reduce)");
+  const recipes = [
+    { prefix: "Less ", contrast: true, options: {} },
+    { prefix: "Easy to say. ", options: { separator: " " } },
+    { prefix: "Built for sharing. ", options: { separator: "-", capitalize: false } },
+    { prefix: "A little personality. ", options: { separator: "_", capitalize: false } },
+    { prefix: "Connect the dots. ", options: { separator: "." } },
+    { prefix: "Short and sweet. ", options: { adjectiveCount: 0 } },
+    { prefix: "Twice the character. ", options: { adjectiveCount: 2 } },
+    { prefix: "Keep things moving. ", options: { separator: "-", capitalize: false, addAdverb: true } },
+  ];
+  const symbols = ["✳", "✦", "↗", "◈"];
+  const speed = 48;
+  let groups;
+  let animation;
+  let width;
+  let paused = motion.matches;
+  let hovered = false;
+  let next = 0;
+  function makeItem(index) {
+    const recipe = recipes[index];
+    const item = document.createElement("span");
+    item.className = "ticker-item";
+    item.append(recipe.prefix);
+    if (recipe.contrast) {
+      const opaque = document.createElement("span");
+      opaque.className = "ticker-opaque";
+      opaque.textContent = Math.floor(Math.random() * 0x100000000)
+        .toString(16)
+        .padStart(8, "0");
+      item.append(opaque, ". More ");
+    }
+    const name = document.createElement("strong");
+    name.textContent = humanId(recipe.options);
+    const symbol = document.createElement("span");
+    symbol.className = "ticker-star";
+    symbol.textContent = symbols[index % symbols.length];
+    item.append(name, ".", symbol);
+    return item;
+  }
+  function playback() {
+    if (paused || hovered || document.hidden) animation.pause();
+    else animation.play();
+    $("pause-ticker").textContent = paused ? "Play ▷" : "Pause Ⅱ";
+    $("pause-ticker").setAttribute("aria-label", paused ? "Resume scrolling" : "Pause scrolling");
+  }
+  function measure(offset = 0) {
+    width = groups[0].getBoundingClientRect().width;
+    const frames = [{ transform: "translateX(0)" }, { transform: `translateX(-${width}px)` }];
+    const duration = (width / speed) * 1000;
+    if (animation) {
+      animation.effect.setKeyframes(frames);
+      animation.effect.updateTiming({ duration });
+    } else {
+      animation = track.animate(frames, { duration, iterations: Infinity, easing: "linear" });
+    }
+    animation.currentTime = ((((offset % width) + width) % width) / speed) * 1000;
+    playback();
+  }
+  function shuffle() {
+    animation?.cancel();
+    animation = undefined;
+    const group = document.createElement("div");
+    group.className = "ticker-group";
+    group.append(...recipes.map((_, index) => makeItem(index)));
+    // A whole group must cover the viewport for the duplicated loop to have no gaps.
+    track.replaceChildren(group);
+    while (group.getBoundingClientRect().width < viewport.clientWidth) {
+      group.append(...recipes.map((_, index) => makeItem(index)));
+    }
+    groups = [group, group.cloneNode(true)];
+    track.replaceChildren(...groups);
+    next = 0;
+    measure();
+  }
+  function refreshHiddenItem() {
+    if (paused || hovered || document.hidden) return;
+    animation.pause();
+    const bounds = viewport.getBoundingClientRect();
+    const visible = (item) => {
+      const rect = item.getBoundingClientRect();
+      return rect.right > bounds.left && rect.left < bounds.right;
+    };
+    const items = [...groups[0].children];
+    const anchor = [...items, ...groups[1].children].find(visible);
+    for (let attempt = 0; attempt < items.length; attempt++) {
+      const index = next++ % items.length;
+      if (visible(items[index]) || visible(groups[1].children[index])) continue;
+      const left = anchor.getBoundingClientRect().left;
+      const offset = (((animation.currentTime ?? 0) / 1000) * speed) % width;
+      const item = makeItem(index % recipes.length);
+      groups[0].children[index].replaceWith(item);
+      groups[1].children[index].replaceWith(item.cloneNode(true));
+      // Keep the visible words in place when an off-screen name changes width.
+      measure(offset + anchor.getBoundingClientRect().left - left);
+      return;
+    }
+    playback();
+  }
+  shuffle();
+  $("ticker-controls").hidden = false;
+  $("shuffle-ticker").addEventListener("click", () => {
+    shuffle();
+    notify("Fresh names for a fresh perspective.");
+  });
+  $("pause-ticker").addEventListener("click", () => {
+    paused = !paused;
+    playback();
+  });
+  viewport.addEventListener("mouseenter", () => {
+    hovered = true;
+    playback();
+  });
+  viewport.addEventListener("mouseleave", () => {
+    hovered = false;
+    playback();
+  });
+  document.addEventListener("visibilitychange", playback);
+  motion.addEventListener("change", () => {
+    if (motion.matches) paused = true;
+    playback();
+  });
+  new ResizeObserver(() => {
+    if (groups[0].getBoundingClientRect().width < viewport.clientWidth) shuffle();
+    else measure((((animation.currentTime ?? 0) / 1000) * speed) % width);
+  }).observe(viewport);
+  setInterval(refreshHiddenItem, 12000);
+}
+startTicker();
 const heroWords = humanId("-").split("-");
 ["hero-adjective", "hero-noun", "hero-verb"].forEach((id, index) => {
   $(id).textContent = heroWords[index];
