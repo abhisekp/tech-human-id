@@ -22,7 +22,11 @@ const npm = (args, cwd = root) =>
     encoding: "utf8",
     stdio: ["ignore", "pipe", "inherit"],
   });
-const [packed] = JSON.parse(npm(["pack", "--json", "--ignore-scripts", "--pack-destination", scratch]));
+const packOutput = npm(["pack", "--json", "--ignore-scripts", "--pack-destination", scratch]);
+// Older npm versions can print prepare-hook output before the JSON metadata.
+const metadataStart = packOutput.search(/\[\s*\{/);
+assert(metadataStart >= 0, "npm pack did not return package metadata");
+const [packed] = JSON.parse(packOutput.slice(metadataStart));
 const archive = join(scratch, packed.filename);
 const files = new Set(packed.files.map((file) => file.path));
 for (const file of [

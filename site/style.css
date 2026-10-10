@@ -1213,8 +1213,12 @@ footer .attribution {
   .identity-art {
     max-width: 400px;
     justify-self: center;
-    width: 90%;
+    width: 86%;
     margin: 10px 0;
+  }
+  .identity-art:before {
+    inset: 8px 0 -8px 8px;
+    transform: rotate(-3deg);
   }
   .art-word {
     font-size: 36px;
