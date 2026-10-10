@@ -1,4 +1,18 @@
-theme: jekyll-theme-cayman
 title: Human-Readable Tech Identifiers
-description: Using words to identify datasets (instead of numbers) provides various advantages when humans are involved, ie increased distinction and rememberability.
-show_downloads: false
+description: Zero-dependency, human-readable identifiers made from tech terms.
+exclude:
+  - node_modules
+  - data
+  - dist
+  - scripts
+  - work
+  - coverage
+  - package.json
+  - yarn.lock
+  - tsconfig.json
+  - tsconfig.build.json
+  - cli.ts
+  - index.ts
+  - examples.ts
+  - humanId.test.ts
+  - jest.config.cjs

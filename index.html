@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Give your projects an identity worth remembering. Generate human-readable tech IDs, explore the options, and copy ready-to-use code."
+    />
+    <meta name="theme-color" content="#f6f5ef" />
+    <meta property="og:title" content="tech-human-id — Make it memorable." />
+    <meta
+      property="og:description"
+      content="A tiny, dependency-free generator for human-readable tech identifiers. Try it in your browser."
+    />
+    <title>tech-human-id — Make it memorable.</title>
+    <link rel="icon" href="./site/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./site/style.css" />
+    <script type="module" src="./site/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#playground">Skip to playground</a>
+    <header class="site-header wrap">
+      <a class="brand" href="./" aria-label="tech-human-id home"
+        ><span class="brand-icon">th<span>.</span></span
+        ><span>tech-human-id<span class="brand-caption">A little more human.</span></span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="#playground">Playground</a><a href="#get-started">Get started</a>
+        <a class="github-link" href="https://github.com/abhisekp/tech-human-id"
+          >GitHub <span aria-hidden="true">↗</span></a
+        >
+        <button
+          class="theme-button"
+          id="theme-toggle"
+          type="button"
+          aria-label="Switch to dark theme"
+          title="Change theme"
+        >
+          ◐
+        </button>
+      </nav>
+    </header>
+    <main>
+      <section class="hero wrap" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="live-dot"></span> SMALL PACKAGE. BIG PERSONALITY.</p>
+          <h1 id="hero-title">Goodbye, random.<br />Hello, <em>memorable.</em></h1>
+          <p class="hero-description">
+            Identifiers for people who think in words.<br />Turn a jumble of characters into something<br
+              class="desktop-break"
+            />
+            you can actually say, share, and remember.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#playground">Find your next ID <span aria-hidden="true">↓</span></a
+            ><a class="text-link" href="#get-started">Meet the tiny library <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="hero-meta">
+            <span>Zero dependencies</span><span>TypeScript ready</span><span>MIT licensed</span>
+          </div>
+        </div>
+        <div class="identity-art" aria-label="An ID combines an adjective, a tech noun, and a verb">
+          <div class="art-caption"><span>ANATOMY OF A GOOD ID</span><span>001 / ∞</span></div>
+          <div class="word-stack">
+            <div class="word-row">
+              <span class="word-number">01</span><span class="art-word lavender" id="hero-adjective">Agile</span
+              ><span class="word-label">adjective</span>
+            </div>
+            <div class="word-row">
+              <span class="word-number">02</span><span class="art-word blue" id="hero-noun">Packets</span
+              ><span class="word-label">tech noun</span>
+            </div>
+            <div class="word-row">
+              <span class="word-number">03</span><span class="art-word peach" id="hero-verb">Connect</span
+              ><span class="word-label">verb</span>
+            </div>
+          </div>
+          <div class="art-footer">
+            <span class="art-stamp">Made to be<br /><strong>remembered.</strong></span
+            ><span class="art-arrow" aria-hidden="true">↙</span><span class="mono">Words with a purpose.</span>
+          </div>
+        </div>
+      </section>
+      <div class="ticker" aria-hidden="true">
+        <div>
+          Less <span>8f3a92bc</span>. More <strong>BrightBackendsBuild</strong>. <span class="ticker-star">✳</span> Less
+          <span>8f3a92bc</span>. More <strong>BrightBackendsBuild</strong>. <span class="ticker-star">✳</span> Less
+          <span>8f3a92bc</span>. More <strong>BrightBackendsBuild</strong>.
+          <span class="ticker-star">✳</span>
+        </div>
+      </div>
+      <section class="playground wrap section" id="playground" aria-labelledby="playground-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 / THE PLAYGROUND</p>
+            <h2 id="playground-title">Make it <em>yours.</em></h2>
+          </div>
+          <p>Pick a style. Find a name.<br />A fresh idea is one click away.</p>
+        </div>
+        <div class="generator">
+          <div class="result-panel">
+            <div class="panel-top">
+              <span class="eyebrow">YOUR NEXT IDENTIFIER</span><span class="version-badge" id="version">v5.0.8</span>
+            </div>
+            <div class="result-stage">
+              <p id="result" class="result" aria-live="polite" aria-atomic="true">Loading your next ID…</p>
+              <button class="copy-result" id="copy-id" type="button" aria-label="Copy current identifier">
+                Copy ID <span aria-hidden="true">⧉</span>
+              </button>
+            </div>
+            <div class="result-actions">
+              <button class="button primary" id="generate" type="button">
+                Generate a fresh ID <span aria-hidden="true">↻</span></button
+              ><span class="key-hint">or press <kbd>G</kbd></span>
+            </div>
+            <div class="batch-panel" id="batch-panel" hidden>
+              <div class="batch-heading">
+                <span class="eyebrow">THE WHOLE BATCH</span>
+                <div>
+                  <button class="small-link" id="copy-all" type="button">Copy all</button
+                  ><button class="small-link" id="download" type="button">Download .txt ↓</button>
+                </div>
+              </div>
+              <ol id="batch-list"></ol>
+            </div>
+            <div class="stats">
+              <div><strong id="pool">1,080,000</strong><span>possible combinations</span></div>
+              <div><strong id="length">10–37</strong><span>characters per ID</span></div>
+              <div><strong>0</strong><span>runtime dependencies</span></div>
+            </div>
+          </div>
+          <form class="options-panel" id="options" aria-label="Identifier options">
+            <div class="options-top">
+              <span class="eyebrow">TUNE THE DETAILS</span
+              ><button class="small-link" id="reset" type="button">Reset ↺</button>
+            </div>
+            <fieldset>
+              <legend>Word separator</legend>
+              <div class="separator-buttons" id="separators">
+                <button type="button" data-separator="" aria-pressed="true">None</button
+                ><button type="button" data-separator="-" aria-pressed="false">—</button
+                ><button type="button" data-separator="_" aria-pressed="false">_</button
+                ><button type="button" data-separator="." aria-pressed="false">.</button
+                ><button type="button" data-separator=" " aria-pressed="false">Space</button>
+              </div>
+              <label class="custom-separator"
+                >Custom
+                <input
+                  id="separator"
+                  name="separator"
+                  type="text"
+                  maxlength="8"
+                  placeholder="e.g. /"
+                  aria-label="Custom word separator (up to 8 characters)"
+                  autocomplete="off"
+              /></label>
+            </fieldset>
+            <div class="range-field">
+              <label for="adjective-count">Adjectives <output id="count-label" for="adjective-count">1</output></label
+              ><input id="adjective-count" name="adjectiveCount" type="range" min="0" max="4" value="1" />
+              <div class="range-labels"><span>0 · just noun + verb</span><span>4 · more personality</span></div>
+            </div>
+            <label class="toggle-row" for="capitalize"
+              ><span>Capitalize words<small>A little CamelCase energy.</small></span
+              ><input id="capitalize" name="capitalize" type="checkbox" checked /><span
+                class="switch"
+                aria-hidden="true"
+              ></span
+            ></label>
+            <label class="toggle-row" for="adverb"
+              ><span>Add an adverb<small>Finish with a little extra flair.</small></span
+              ><input id="adverb" name="addAdverb" type="checkbox" /><span class="switch" aria-hidden="true"></span
+            ></label>
+            <div class="batch-control">
+              <label for="batch-size">Generate at a time</label
+              ><select id="batch-size" name="batchSize">
+                <option value="1">1 ID</option>
+                <option value="5">5 IDs</option>
+                <option value="10">10 IDs</option>
+              </select>
+            </div>
+            <button class="share-settings" id="share" type="button">
+              Share these settings <span aria-hidden="true">↗</span>
+            </button>
+          </form>
+        </div>
+        <p class="playground-note">
+          <span aria-hidden="true">↳</span> Runs entirely in your browser. These are random identifiers; check for
+          collisions when uniqueness matters.
+        </p>
+        <noscript
+          ><p class="noscript">
+            Enable JavaScript to use the playground. The install instructions and API reference below are available
+            without it.
+          </p></noscript
+        >
+      </section>
+      <section class="get-started wrap section" id="get-started" aria-labelledby="start-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">02 / A TINY ADDITION</p>
+            <h2 id="start-title">Good names.<br /><em>Two lines away.</em></h2>
+          </div>
+          <p>Works in Node.js and browser bundles.<br />Bring a human touch to your next project.</p>
+        </div>
+        <div class="start-grid">
+          <div class="install-panel">
+            <span class="eyebrow">MAKE ROOM FOR BETTER IDS</span>
+            <div class="install-tabs" role="tablist" aria-label="Package manager">
+              <button
+                type="button"
+                role="tab"
+                aria-selected="true"
+                aria-controls="install-command"
+                id="npm-tab"
+                data-manager="npm"
+              >
+                npm</button
+              ><button
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="install-command"
+                id="yarn-tab"
+                data-manager="yarn"
+                tabindex="-1"
+              >
+                yarn</button
+              ><button
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="install-command"
+                id="pnpm-tab"
+                data-manager="pnpm"
+                tabindex="-1"
+              >
+                pnpm
+              </button>
+            </div>
+            <div class="install-command" role="tabpanel" id="install-command" aria-labelledby="npm-tab">
+              <code id="install-code">npm install tech-human-id</code
+              ><button type="button" id="copy-install" aria-label="Copy install command">⧉</button>
+            </div>
+            <p>No runtime dependencies. Typed out of the box.<br />Yours to use under the MIT license.</p>
+            <a class="text-link" href="https://www.npmjs.com/package/tech-human-id">View package on npm ↗</a>
+          </div>
+          <div class="code-panel">
+            <div class="code-top">
+              <div role="tablist" aria-label="Code language">
+                <button
+                  role="tab"
+                  aria-selected="true"
+                  aria-controls="code-example"
+                  id="esm-tab"
+                  data-language="esm"
+                  type="button"
+                >
+                  JavaScript</button
+                ><button
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="code-example"
+                  id="cjs-tab"
+                  data-language="cjs"
+                  tabindex="-1"
+                  type="button"
+                >
+                  CommonJS</button
+                ><button
+                  role="tab"
+                  aria-selected="false"
+                  aria-controls="code-example"
+                  id="cli-tab"
+                  data-language="cli"
+                  tabindex="-1"
+                  type="button"
+                >
+                  CLI
+                </button>
+              </div>
+              <button id="copy-code" type="button" aria-label="Copy code example">Copy code ⧉</button>
+            </div>
+            <pre
+              id="code-example"
+              role="tabpanel"
+              aria-labelledby="esm-tab"
+            ><code id="code">import { humanId } from "tech-human-id";
+
+humanId(); // BrightBackendsBuild</code></pre>
+            <div class="code-foot"><span class="live-dot"></span> This example follows your playground settings.</div>
+          </div>
+        </div>
+      </section>
+      <section class="reference wrap section" id="reference" aria-labelledby="reference-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">03 / UNDER THE HOOD</p>
+            <h2 id="reference-title">Small API.<br /><em>Plenty of possibility.</em></h2>
+          </div>
+          <a class="text-link" href="https://github.com/abhisekp/tech-human-id#api">Read the full documentation ↗</a>
+        </div>
+        <div class="api-list">
+          <div>
+            <code>humanId(options?)</code>
+            <p>A fresh identifier, with your choice of separator, casing, adjective count, and optional adverb.</p>
+            <span>string</span>
+          </div>
+          <div>
+            <code>poolSize(options?)</code>
+            <p>The number of word combinations for your settings. More adjectives multiply the possibilities.</p>
+            <span>number</span>
+          </div>
+          <div>
+            <code>minLength / maxLength</code>
+            <p>Know the shortest and longest possible ID before it lands in your UI or database.</p>
+            <span>number</span>
+          </div>
+          <div>
+            <code>adjectives · nouns · verbs · adverbs</code>
+            <p>Explore the word lists that give every identifier its personality.</p>
+            <span>string[]</span>
+          </div>
+        </div>
+        <div class="word-bank">
+          <p class="eyebrow">A FEW WORDS FROM THE NEIGHBORHOOD</p>
+          <div id="word-bank"><span>agile</span><span>packets</span><span>connect</span><span>optimally</span></div>
+        </div>
+      </section>
+      <section class="faq wrap section" aria-labelledby="faq-title">
+        <div>
+          <p class="eyebrow">04 / BEFORE YOU GO</p>
+          <h2 id="faq-title">A few <em>good questions.</em></h2>
+        </div>
+        <div class="questions">
+          <details>
+            <summary>How many combinations are there?<span aria-hidden="true">+</span></summary>
+            <p>
+              The default word lists contain 75 adjectives, 150 tech nouns, and 96 verbs: 1,080,000 word combinations.
+              Each extra adjective multiplies the pool by 75; an adverb multiplies it by 59. The playground calculates
+              the pool for your settings.
+            </p>
+          </details>
+          <details>
+            <summary>Are the IDs unique?<span aria-hidden="true">+</span></summary>
+            <p>
+              Each call makes an independent random selection, so repeats are possible. If an ID must be unique, check
+              it against existing records and retry on a collision. Different word combinations can also produce the
+              same string when separators are omitted.
+            </p>
+          </details>
+          <details>
+            <summary>Where should I use them?<span aria-hidden="true">+</span></summary>
+            <p>
+              Readable labels for datasets, dev environments, demo projects, logs, or shared sessions. The generator
+              uses Math.random(), so use a cryptographically secure generator for passwords, authentication tokens, and
+              other secrets.
+            </p>
+          </details>
+          <details>
+            <summary>Can I contribute a word?<span aria-hidden="true">+</span></summary>
+            <p>
+              Absolutely. The word lists live in the data directory. Keep words short, family friendly, and relevant to
+              tech, then open a pull request on
+              <a href="https://github.com/abhisekp/tech-human-id">GitHub</a>.
+            </p>
+          </details>
+        </div>
+      </section>
+      <section class="closing wrap">
+        <span class="closing-symbol" aria-hidden="true">✳</span>
+        <h2>A small detail.<br />A more <em>human</em> experience.</h2>
+        <a class="button primary" href="#playground">Make something memorable ↑</a>
+      </section>
+    </main>
+    <footer class="wrap">
+      <a class="brand footer-brand" href="./"
+        ><span class="brand-icon">th<span>.</span></span
+        ><span>tech-human-id</span></a
+      >
+      <p>Made for people. Built with words.</p>
+      <div>
+        <a href="https://github.com/abhisekp/tech-human-id">Source ↗</a
+        ><a href="https://github.com/abhisekp/tech-human-id/blob/master/LICENSE">MIT license ↗</a>
+      </div>
+      <p class="attribution">
+        Maintained by <a href="https://github.com/abhisekp">abhisekp</a> · Based on
+        <a href="https://github.com/RienNeVaPlus/human-id">human-id</a>.
+      </p>
+    </footer>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

@@ -1,33 +1,51 @@
 #!/usr/bin/env node
-import { humanId } from "./index";
+import { humanId, Options } from "./index";
+import { version } from "./package.json";
 
-// @ts-ignore
+const help = `Usage: tech-human-id [adverb] [lowercase] [adjectiveCount] [separator] [countx]
+
+  a, adverb, addAdverb    Add an adverb
+  l, lower, lowercase    Use lowercase words
+  space                  Separate words with a space
+  any single character   Separate words with that character
+  non-negative integer   Set the number of adjectives (default: 1)
+  integer followed by x  Set the number of IDs (default: 1)
+  -h, --help             Show this help
+  -v, --version          Show the package version
+
+Example: tech-human-id adverb lower 2 _ 3x`;
+
 const args = process.argv.slice(2);
 
-const options = {
-  adjectiveCount: 1,
-  addAdverb: false,
-  separator: "",
-  capitalize: true,
-};
+if (args.includes("--help") || args.includes("-h")) {
+  console.log(help);
+} else if (args.includes("--version") || args.includes("-v")) {
+  console.log(version);
+} else {
+  try {
+    const options: Options = { adjectiveCount: 1, addAdverb: false, separator: "", capitalize: true };
+    let repetitions = 1;
 
-const adverb = ["a", "adverb", "addadverb"];
-const lower = ["l", "lower", "lowercase"];
+    for (const arg of args) {
+      const lower = arg.toLowerCase();
+      if (/^(0|[1-9]\d*)$/.test(arg)) options.adjectiveCount = Number(arg);
+      else if (["a", "adverb", "addadverb"].includes(lower)) options.addAdverb = true;
+      else if (["l", "lower", "lowercase"].includes(lower)) options.capitalize = false;
+      else if (/^(0|[1-9]\d*)x$/i.test(arg)) repetitions = Number(arg.slice(0, -1));
+      else if (lower === "space") options.separator = " ";
+      else if (arg.length === 1 && !options.separator) options.separator = arg;
+      else throw new Error(`Unknown argument: ${arg}. Run tech-human-id --help for usage.`);
+    }
 
-let reps = 1;
-
-for (const arg of args) {
-  if (String(parseInt(arg)) === String(arg)) options.adjectiveCount = parseInt(arg);
-  else if (typeof arg === "string") {
-    const lc = arg.toLowerCase();
-    if (adverb.includes(lc)) options.addAdverb = true;
-    else if (lower.includes(lc)) options.capitalize = false;
-    else if (lc.endsWith("x")) reps = parseInt(arg);
-    else if (lc === "space") options.separator = " ";
-    else if (!options.separator && arg.length === 1) options.separator = arg;
+    if (!Number.isSafeInteger(repetitions)) throw new RangeError("The repetition count must be a safe integer");
+    // Validate even when no output is requested.
+    const adjectiveCount = options.adjectiveCount ?? 1;
+    if (!Number.isInteger(adjectiveCount) || adjectiveCount < 0 || adjectiveCount > 0xffffffff) {
+      throw new RangeError("adjectiveCount must be a non-negative integer smaller than 2^32");
+    }
+    for (let i = 0; i < repetitions; i++) console.log(humanId(options));
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
   }
-}
-
-for (let i = 0; i < reps; i++) {
-  console.log(humanId(options));
 }

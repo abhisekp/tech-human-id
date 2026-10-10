@@ -1,75 +1,125 @@
-function $parcel$defineInteropFlag(a) {
-  Object.defineProperty(a, "__esModule", { value: true, configurable: true });
-}
+"use strict";
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __pow = Math.pow;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-function $parcel$export(e, n, v, s) {
-  Object.defineProperty(e, n, { get: v, set: s, enumerable: true, configurable: true });
-}
+// index.ts
+var index_exports = {};
+__export(index_exports, {
+  adjectives: () => adjectives2,
+  adverbs: () => adverbs2,
+  default: () => index_default,
+  humanId: () => humanId,
+  maxLength: () => maxLength,
+  minLength: () => minLength,
+  nouns: () => nouns2,
+  poolSize: () => poolSize,
+  verbs: () => verbs2
+});
+module.exports = __toCommonJS(index_exports);
 
-$parcel$defineInteropFlag(module.exports);
-
-$parcel$export(module.exports, "adjectives", () => $4570520949de217f$export$91076e975f93bb);
-$parcel$export(module.exports, "nouns", () => $4570520949de217f$export$5cb7c19fcb84c9cd);
-$parcel$export(module.exports, "verbs", () => $4570520949de217f$export$95c304d9ad46d333);
-$parcel$export(module.exports, "adverbs", () => $4570520949de217f$export$b9b382fe089b530c);
-$parcel$export(module.exports, "humanId", () => $4570520949de217f$export$d766a80fb8e0ff4e);
-$parcel$export(module.exports, "poolSize", () => $4570520949de217f$export$2b85bff0de2bf05a);
-$parcel$export(module.exports, "maxLength", () => $4570520949de217f$export$c9f461152c658a8b);
-$parcel$export(module.exports, "minLength", () => $4570520949de217f$export$8fe860a115a1e636);
-$parcel$export(module.exports, "default", () => $4570520949de217f$export$2e2bcd8739ae039);
-const $4570520949de217f$export$91076e975f93bb = [
+// data/adjectives.ts
+var adjectives = [
+  "accurate",
   "afraid",
-  "big",
+  "agile",
   "better",
+  "big",
   "bright",
+  "clean",
   "clear",
   "clever",
   "cold",
+  "compact",
   "cool",
+  "creative",
   "dark",
   "deep",
   "dirty",
   "dry",
   "dull",
+  "dynamic",
+  "elegant",
+  "efficient",
   "fast",
+  "flexible",
   "free",
   "fresh",
+  "friendly",
   "full",
+  "graceful",
   "green",
   "hot",
   "huge",
+  "intelligent",
   "light",
+  "logical",
   "long",
   "modern",
+  "modular",
   "neat",
   "new",
+  "nimble",
   "open",
+  "powerful",
+  "precise",
   "public",
   "quick",
   "ready",
+  "reliable",
+  "robust",
+  "scalable",
+  "secure",
   "sharp",
   "shiny",
   "short",
   "silent",
+  "simple",
+  "sleek",
   "slick",
   "slow",
   "smart",
   "smooth",
   "solid",
+  "stable",
   "strong",
+  "sustainable",
   "swift",
   "thin",
+  "timeless",
   "tough",
   "true",
+  "versatile",
   "vast",
+  "vibrant",
+  "virtual",
   "wide",
-  "wise",
+  "wise"
 ];
-const $4570520949de217f$export$5cb7c19fcb84c9cd = [
+
+// data/nouns.ts
+var nouns = [
   "algorithms",
+  "analytics",
   "applications",
   "archives",
   "arrays",
+  "assets",
   "backends",
   "batteries",
   "binaries",
@@ -77,6 +127,7 @@ const $4570520949de217f$export$5cb7c19fcb84c9cd = [
   "branches",
   "browsers",
   "buffers",
+  "buttons",
   "bytes",
   "cables",
   "caches",
@@ -87,26 +138,34 @@ const $4570520949de217f$export$5cb7c19fcb84c9cd = [
   "clouds",
   "clusters",
   "codes",
+  "commands",
   "compilers",
   "components",
+  "configurations",
+  "connections",
   "controllers",
   "cores",
   "cryptos",
   "dashboards",
   "databases",
   "datasets",
+  "dependencies",
   "devices",
+  "directories",
   "displays",
   "domains",
   "drivers",
   "emails",
   "engines",
+  "environments",
+  "errors",
   "extensions",
   "fields",
   "files",
+  "filters",
   "folders",
-  "functions",
   "frameworks",
+  "functions",
   "gateways",
   "generators",
   "graphs",
@@ -129,6 +188,7 @@ const $4570520949de217f$export$5cb7c19fcb84c9cd = [
   "machines",
   "mails",
   "mainframes",
+  "maps",
   "memories",
   "methods",
   "microservices",
@@ -171,6 +231,8 @@ const $4570520949de217f$export$5cb7c19fcb84c9cd = [
   "software",
   "sources",
   "sockets",
+  "solutions",
+  "specifications",
   "stacks",
   "standards",
   "storages",
@@ -192,6 +254,7 @@ const $4570520949de217f$export$5cb7c19fcb84c9cd = [
   "uploads",
   "urls",
   "users",
+  "utilities",
   "variables",
   "vectors",
   "views",
@@ -200,52 +263,75 @@ const $4570520949de217f$export$5cb7c19fcb84c9cd = [
   "widgets",
   "windows",
   "workflows",
-  "zones",
+  "zones"
 ];
-const $4570520949de217f$export$95c304d9ad46d333 = [
+
+// data/verbs.ts
+var verbs = [
   "accept",
   "add",
+  "adjust",
   "allow",
   "analyze",
+  "authenticate",
+  "backup",
   "build",
   "calculate",
   "change",
   "check",
   "click",
   "compile",
+  "compress",
   "connect",
+  "convert",
   "copy",
   "create",
   "debug",
+  "decrypt",
   "delete",
   "design",
   "develop",
+  "disable",
+  "display",
   "download",
   "edit",
   "encode",
+  "encrypt",
   "enter",
   "execute",
   "export",
+  "extract",
   "fix",
   "generate",
+  "hide",
   "import",
+  "index",
   "install",
   "integrate",
   "invent",
   "join",
   "launch",
+  "link",
   "load",
   "log",
   "make",
+  "manage",
+  "merge",
   "monitor",
   "move",
+  "navigate",
   "open",
   "optimize",
+  "parse",
+  "perform",
   "post",
   "press",
+  "process",
   "program",
   "push",
   "read",
+  "reboot",
+  "reconfigure",
   "repair",
   "report",
   "reset",
@@ -254,46 +340,73 @@ const $4570520949de217f$export$95c304d9ad46d333 = [
   "save",
   "scan",
   "search",
+  "secure",
   "select",
   "send",
   "setup",
   "share",
+  "sort",
   "start",
   "stop",
   "store",
   "stream",
+  "submit",
   "switch",
   "sync",
   "test",
   "track",
+  "transform",
   "type",
+  "uninstall",
   "update",
   "upload",
   "upgrade",
   "use",
   "view",
-  "write",
+  "write"
 ];
-const $4570520949de217f$export$b9b382fe089b530c = [
+
+// data/adverbs.ts
+var adverbs = [
   "accurately",
+  "adaptively",
   "algorithmically",
   "asynchronously",
   "automatically",
+  "autonomously",
+  "brilliantly",
+  "clearly",
   "concurrently",
   "consistently",
+  "continuously",
+  "creatively",
+  "customizably",
   "dependably",
   "digitally",
   "dynamically",
   "efficiently",
+  "exceptionally",
+  "experimentally",
+  "extensively",
   "fluently",
+  "frequently",
+  "functionally",
+  "gracefully",
+  "incrementally",
+  "independently",
+  "innovatively",
   "intelligently",
+  "interactively",
   "logically",
   "modularly",
   "optimally",
   "parallelly",
+  "periodically",
   "precisely",
+  "predictably",
   "programmatically",
   "promptly",
+  "proactively",
   "rapidly",
   "reliably",
   "remotely",
@@ -305,77 +418,75 @@ const $4570520949de217f$export$b9b382fe089b530c = [
   "sequentially",
   "smoothly",
   "statically",
+  "strategically",
   "synchronously",
+  "systematically",
+  "theoretically",
+  "thoroughly",
+  "transparently",
+  "uniquely",
   "virtually",
-  "wirelessly",
+  "wirelessly"
 ];
-function $4570520949de217f$var$random(arr) {
+
+// index.ts
+var adjectives2 = adjectives;
+var nouns2 = nouns;
+var verbs2 = verbs;
+var adverbs2 = adverbs;
+function random(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
-function $4570520949de217f$var$longest(arr) {
-  return arr.reduce((a, b) => (a.length > b.length ? a : b));
+function longest(arr) {
+  return arr.reduce((a, b) => a.length > b.length ? a : b);
 }
-function $4570520949de217f$var$shortest(arr) {
-  return arr.reduce((a, b) => (a.length < b.length ? a : b));
+function shortest(arr) {
+  return arr.reduce((a, b) => a.length < b.length ? a : b);
 }
-function $4570520949de217f$export$d766a80fb8e0ff4e(options = {}) {
-  if (typeof options === "string")
-    options = {
-      separator: options,
-    };
-  if (typeof options === "boolean")
-    options = {
-      capitalize: options,
-    };
-  const {
-    separator: separator = "",
-    capitalize: capitalize = true,
-    adjectiveCount: adjectiveCount = 1,
-    addAdverb: addAdverb = false,
-  } = options;
+function validateAdjectiveCount(adjectiveCount) {
+  if (!Number.isInteger(adjectiveCount) || adjectiveCount < 0 || adjectiveCount > 4294967295) {
+    throw new RangeError("adjectiveCount must be a non-negative integer smaller than 2^32");
+  }
+}
+function humanId(options = {}) {
+  if (typeof options === "string") options = { separator: options };
+  if (typeof options === "boolean") options = { capitalize: options };
+  const { separator = "", capitalize = true, adjectiveCount = 1, addAdverb = false } = options;
+  validateAdjectiveCount(adjectiveCount);
   let res = [
-    ...[...Array(adjectiveCount)].map((_) => $4570520949de217f$var$random($4570520949de217f$export$91076e975f93bb)),
-    $4570520949de217f$var$random($4570520949de217f$export$5cb7c19fcb84c9cd),
-    $4570520949de217f$var$random($4570520949de217f$export$95c304d9ad46d333),
-    ...(addAdverb ? [$4570520949de217f$var$random($4570520949de217f$export$b9b382fe089b530c)] : []),
+    ...[...Array(adjectiveCount)].map((_) => random(adjectives2)),
+    random(nouns2),
+    random(verbs2),
+    ...addAdverb ? [random(adverbs2)] : []
   ];
-  if (capitalize) res = res.map((r) => r.charAt(0).toUpperCase() + r.substr(1));
+  if (capitalize) res = res.map((r) => r.charAt(0).toUpperCase() + r.slice(1));
   return res.join(separator);
 }
-function $4570520949de217f$export$2b85bff0de2bf05a(options = {}) {
-  const { adjectiveCount: adjectiveCount = 1, addAdverb: addAdverb = false } = options;
-  return (
-    $4570520949de217f$export$91076e975f93bb.length *
-    adjectiveCount *
-    $4570520949de217f$export$5cb7c19fcb84c9cd.length *
-    $4570520949de217f$export$95c304d9ad46d333.length *
-    (addAdverb ? $4570520949de217f$export$b9b382fe089b530c.length : 1)
-  );
+function poolSize(options = {}) {
+  const { adjectiveCount = 1, addAdverb = false } = options;
+  validateAdjectiveCount(adjectiveCount);
+  return __pow(adjectives2.length, adjectiveCount) * nouns2.length * verbs2.length * (addAdverb ? adverbs2.length : 1);
 }
-function $4570520949de217f$export$c9f461152c658a8b(options = {}) {
-  const { adjectiveCount: adjectiveCount = 1, addAdverb: addAdverb = false, separator: separator = "" } = options;
-  return (
-    $4570520949de217f$var$longest($4570520949de217f$export$91076e975f93bb).length * adjectiveCount +
-    adjectiveCount * separator.length +
-    $4570520949de217f$var$longest($4570520949de217f$export$5cb7c19fcb84c9cd).length +
-    separator.length +
-    $4570520949de217f$var$longest($4570520949de217f$export$95c304d9ad46d333).length +
-    (addAdverb ? $4570520949de217f$var$longest($4570520949de217f$export$b9b382fe089b530c).length + separator.length : 0)
-  );
+function maxLength(options = {}) {
+  const { adjectiveCount = 1, addAdverb = false, separator = "" } = options;
+  validateAdjectiveCount(adjectiveCount);
+  return longest(adjectives2).length * adjectiveCount + adjectiveCount * separator.length + longest(nouns2).length + separator.length + longest(verbs2).length + (addAdverb ? longest(adverbs2).length + separator.length : 0);
 }
-function $4570520949de217f$export$8fe860a115a1e636(options = {}) {
-  const { adjectiveCount: adjectiveCount = 1, addAdverb: addAdverb = false, separator: separator = "" } = options;
-  return (
-    $4570520949de217f$var$shortest($4570520949de217f$export$91076e975f93bb).length * adjectiveCount +
-    adjectiveCount * separator.length +
-    $4570520949de217f$var$shortest($4570520949de217f$export$5cb7c19fcb84c9cd).length +
-    separator.length +
-    $4570520949de217f$var$shortest($4570520949de217f$export$95c304d9ad46d333).length +
-    (addAdverb
-      ? $4570520949de217f$var$shortest($4570520949de217f$export$b9b382fe089b530c).length + separator.length
-      : 0)
-  );
+function minLength(options = {}) {
+  const { adjectiveCount = 1, addAdverb = false, separator = "" } = options;
+  validateAdjectiveCount(adjectiveCount);
+  return shortest(adjectives2).length * adjectiveCount + adjectiveCount * separator.length + shortest(nouns2).length + separator.length + shortest(verbs2).length + (addAdverb ? shortest(adverbs2).length + separator.length : 0);
 }
-var $4570520949de217f$export$2e2bcd8739ae039 = $4570520949de217f$export$d766a80fb8e0ff4e;
-
+var index_default = humanId;
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  adjectives,
+  adverbs,
+  humanId,
+  maxLength,
+  minLength,
+  nouns,
+  poolSize,
+  verbs
+});
 //# sourceMappingURL=index.cjs.map
