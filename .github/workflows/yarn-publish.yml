@@ -7,9 +7,6 @@ on:
     branches: [master, "[0-9]*.x"]
   push:
     tags: ["v*"]
-  pull_request:
-    branches: [master, "[0-9]*.x"]
-    paths: [".github/**", "scripts/**", "release.config.json", "package.json", "yarn.lock", "README.md"]
   workflow_dispatch:
     inputs:
       tag:
@@ -31,7 +28,7 @@ permissions:
 
 # Serialize npm channel updates across current and maintenance releases.
 concurrency:
-  group: ${{ github.event_name == 'pull_request' && format('npm-preview-{0}', github.event.pull_request.number) || 'npm-publication' }}
+  group: npm-publication
   cancel-in-progress: false
 
 jobs:
@@ -50,7 +47,7 @@ jobs:
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || 'master' }}
+          ref: master
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -109,7 +106,7 @@ jobs:
         run: node scripts/publish-package.mjs
 
   publish-npm:
-    if: github.event_name != 'pull_request' && needs.build.outputs.dry_run == 'false'
+    if: needs.build.outputs.dry_run == 'false'
     needs: build
     runs-on: ubuntu-latest
     permissions:
