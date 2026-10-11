@@ -132,6 +132,13 @@ publish({
   dryRun: true,
 });
 assert.equal(calls.length, 1);
+assert.equal(calls[0][0], "pack");
+assert(calls[0].includes("--dry-run"));
+assert(calls[0].includes("--ignore-scripts"));
+calls.length = 0;
+publish({ preview: true, dryRun: true });
+assert.equal(calls.length, 1);
+assert.equal(calls[0][0], "publish");
 assert(calls[0].includes("--dry-run"));
 console.log(
   "Publish checks passed: compatibility gate, independent major channels, no downgrades, exact archive identity, safe retries and credential-free dry runs.",
