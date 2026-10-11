@@ -426,7 +426,7 @@ function humanId(options = {}) {
 }
 
 // package.json
-var version = "5.0.8";
+var version = "5.0.9";
 
 // cli.ts
 var help = `Usage: tech-human-id [adverb] [lowercase] [adjectiveCount] [separator] [countx]
