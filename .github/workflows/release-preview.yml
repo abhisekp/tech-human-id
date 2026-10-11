@@ -1,0 +1,80 @@
+name: Preview npm release
+
+# Preview jobs run only in pull-request context and never receive publishing identity.
+on:
+  pull_request:
+    branches: [master, "[0-9]*.x"]
+    paths:
+      [".github/**", "scripts/**", "release.config.json", "package.json", "yarn.lock", "README.md", "jest.config.cjs"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ steps.release.outputs.branch }}
+      version: ${{ steps.release.outputs.version }}
+      controller: ${{ steps.release.outputs.controller }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - name: Validate the proposed release policy
+        id: release
+        run: node scripts/prepare-release.mjs
+      - name: Install Yarn
+        run: npm install --global yarn@1.22.22
+      - run: yarn install --frozen-lockfile
+      - run: yarn verify
+      - run: yarn format:check
+      - run: git diff --exit-code -- dist site/library.mjs index.html
+      - name: Pack the validated preview
+        run: |
+          mkdir release
+          npm pack --ignore-scripts --pack-destination release
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: npm-preview
+          path: release/*.tgz
+          if-no-files-found: error
+          retention-days: 7
+
+  dry-run:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_VERSION: ${{ needs.build.outputs.version }}
+      RELEASE_BRANCH: ${{ needs.build.outputs.branch }}
+      DRY_RUN: "true"
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ needs.build.outputs.controller }}
+          fetch-depth: 0
+          persist-credentials: false
+          sparse-checkout: |
+            scripts
+            release.config.json
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npm install --global npm@11.21.0
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: npm-preview
+          path: release
+      - name: Dry run without publishing credentials or channel writes
+        run: node scripts/publish-package.mjs
