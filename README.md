@@ -118,7 +118,8 @@ The generator uses `Math.random()`. Use a cryptographically secure generator for
 
 ## Development
 
-Use Node.js 22 or 24 and Yarn 1.22.22.
+Use Node.js 22.22.1 or newer on the Node 22 line, or Node.js 24, and Yarn 1.22.22.
+Development type definitions follow Node 22 so tooling does not assume APIs absent from the oldest CI runtime. TypeScript stays on version 6 while ts-jest requires its compiler API.
 
 ```sh
 yarn install --frozen-lockfile
@@ -138,7 +139,7 @@ The root `index.html` and committed `site/` assets support the existing branch-b
 
 ### Releases
 
-This source prepares the compatible `5.0.8` patch release. Configure npm trusted publishing before merging release changes.
+This source prepares the compatible `5.0.9` patch release. GitHub Actions trusted publishing successfully published `5.0.8` with provenance; it will publish the next validated version after merge.
 
 In [npm package settings](https://www.npmjs.com/package/tech-human-id/access), add a **GitHub Actions** trusted publisher:
 
@@ -168,7 +169,7 @@ Each major has an npm channel such as `latest-5` or `latest-6`. `latest` follows
 A future major upgrade is blocked until a non-breaking update to the previous major is published and its tag is merged into that major's maintenance branch. For example, before releasing `6.0.0`:
 
 1. Keep `5.x` with the release workflows and compatible version 5 API.
-2. Make, validate, and publish a compatible upgrade such as `5.0.9` on `5.x`.
+2. Make, validate, and publish a compatible upgrade such as `5.0.10` on `5.x`.
 3. Record the upgrade in `release.config.json`, keeping `baselineMajor` at 5:
 
 ```json
@@ -176,8 +177,8 @@ A future major upgrade is blocked until a non-breaking update to the previous ma
   "baselineMajor": 5,
   "majorUpgrades": {
     "6": {
-      "previousVersion": "5.0.8",
-      "compatibilityVersion": "5.0.9",
+      "previousVersion": "5.0.9",
+      "compatibilityVersion": "5.0.10",
       "maintenanceBranch": "5.x"
     }
   }
