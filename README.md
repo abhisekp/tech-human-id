@@ -118,7 +118,8 @@ The generator uses `Math.random()`. Use a cryptographically secure generator for
 
 ## Development
 
-Use Node.js 22 or 24 and Yarn 1.22.22.
+Use Node.js 22.22.1 or newer on the Node 22 line, or Node.js 24, and Yarn 1.22.22.
+Development type definitions follow Node 22 so tooling does not assume APIs absent from the oldest CI runtime. TypeScript stays on version 6 while ts-jest requires its compiler API.
 
 ```sh
 yarn install --frozen-lockfile
@@ -138,15 +139,53 @@ The root `index.html` and committed `site/` assets support the existing branch-b
 
 ### Releases
 
-This source prepares the next patch release; local verification does not publish it.
+This source prepares the compatible `5.0.9` patch release. GitHub Actions trusted publishing successfully published `5.0.8` with provenance; it will publish the next validated version after merge.
 
-1. Merge the reviewed version change into `master`.
-2. **Create Tag** validates the package on Windows/Linux with Node 22/24, then creates `v<package version>` from current `master` if the tag does not already exist.
-3. Run **Publish Node.js Package** manually from `master`, entering that existing tag. Tags created using `GITHUB_TOKEN` do not trigger another workflow automatically. A version tag pushed by a maintainer also triggers the publishing workflow.
-4. The verification script from `master` checks that the tag matches the package version and that its commit is merged into `master` before checking out the release. All checks pass before the exact packed archive is passed to the publish job.
-5. The publish job uses the existing `NPM_TOKEN` secret and adds npm provenance. It does not rebuild the package or execute package lifecycle scripts.
+In [npm package settings](https://www.npmjs.com/package/tech-human-id/access), add a **GitHub Actions** trusted publisher:
 
-Keep the token scoped to this package. npm trusted publishing can be configured later; this change preserves the existing authentication mechanism.
+| Field                | Value                                                      |
+| -------------------- | ---------------------------------------------------------- |
+| Organization or user | `abhisekp`                                                 |
+| Repository           | `tech-human-id`                                            |
+| Workflow filename    | `yarn-publish.yml` (filename only)                         |
+| Environment name     | Leave empty; the publishing job uses no GitHub environment |
+| Allow npm publish    | Enabled for automatic publication                          |
+| Allow npm dist-tag   | Enabled for maintenance channels and safe retries          |
+
+After the first successful trusted publish, select **Require two-factor authentication and disallow tokens** under Publishing access. The workflow does not use `NPM_TOKEN`; remove obsolete publishing tokens after migration. A new trust configuration must publish successfully within two days or it expires. See [npm's trusted publishing documentation](https://docs.npmjs.com/trusted-publishers/).
+
+1. Merge a reviewed stable version change into `master`, or a backport into a matching maintenance branch such as `5.x`.
+2. **Create Tag** validates Windows/Linux on Node 22/24 and tags only the current release branch commit.
+3. Its successful completion starts **Publish Node.js Package** through `workflow_run`. This also recovers an existing validated tag that has not reached npm. `GITHUB_TOKEN` tag pushes alone do not trigger workflows.
+4. The controller from `master` checks the release policy and tag ancestry before checking out the immutable tagged source. The build must pass all checks, formatting, and generated-artifact consistency before uploading the exact archive.
+5. A separate GitHub-hosted publishing job uses OIDC, Node 24, and npm 11.21.0. It installs no package dependencies, executes no package lifecycle scripts, and publishes with provenance. GitHub release notes follow successful publication.
+
+Manual recovery remains available: run **Publish Node.js Package** from `master`, enter the existing tag and release branch, and leave **dry_run** enabled to validate without publication. Disable it for a real release. Pull requests run the archive publication dry run without publishing credentials. A retry only skips an existing npm version when its archive checksum matches; it can then repair missing distribution tags. Older releases never move newer channels backwards.
+
+### Maintaining parallel major versions
+
+Each major has an npm channel such as `latest-5` or `latest-6`. `latest` follows the newest stable release; a `5.x` backport after version 6 exists updates `latest-5` without downgrading `latest`. CI, tagging, and publishing support matching `<major>.x` branches independently of `master`.
+
+A future major upgrade is blocked until a non-breaking update to the previous major is published and its tag is merged into that major's maintenance branch. For example, before releasing `6.0.0`:
+
+1. Keep `5.x` with the release workflows and compatible version 5 API.
+2. Make, validate, and publish a compatible upgrade such as `5.0.10` on `5.x`.
+3. Record the upgrade in `release.config.json`, keeping `baselineMajor` at 5:
+
+```json
+{
+  "baselineMajor": 5,
+  "majorUpgrades": {
+    "6": {
+      "previousVersion": "5.0.9",
+      "compatibilityVersion": "5.0.10",
+      "maintenanceBranch": "5.x"
+    }
+  }
+}
+```
+
+Then version 6 can ship from `master`, while version 5 keeps receiving compatible releases from `5.x`. The gate checks published versions and Git ancestry; reviewers still verify that the lower-version changes preserve the API. This release does not introduce version 6.
 
 ## Contributing
 

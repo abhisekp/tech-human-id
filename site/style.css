@@ -379,32 +379,59 @@ footer a:hover {
 }
 .ticker {
   border-block: 1px solid var(--line);
-  padding: 19px 0;
+  padding: 9px 0 16px;
+}
+.ticker-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.ticker-toolbar .eyebrow {
+  font-size: 9px;
+  color: var(--muted);
+}
+.ticker-toolbar button {
+  min-height: 32px;
+  padding: 5px 8px;
+}
+.ticker-toolbar button:last-child {
+  min-width: 70px;
+}
+.ticker-viewport {
   overflow: hidden;
   white-space: nowrap;
   font-size: 17px;
   letter-spacing: -0.02em;
 }
-.ticker > div {
+.ticker-track,
+.ticker-group {
+  display: flex;
   width: max-content;
-  animation: marquee 55s linear infinite;
 }
-.ticker span:not(.ticker-star) {
+.ticker-group,
+.ticker-item {
+  flex-shrink: 0;
+}
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  white-space: pre;
+}
+.ticker-opaque {
   color: var(--muted);
   font-family: Consolas, monospace;
 }
 .ticker strong {
+  font-family: Consolas, monospace;
+  font-size: 0.94em;
   font-weight: 500;
 }
 .ticker-star {
   font-size: 24px;
-  padding-inline: 38px;
+  padding-inline: 30px;
   color: #88a658;
-}
-@keyframes marquee {
-  to {
-    transform: translateX(-33.333%);
-  }
 }
 .section {
   padding-top: 85px;
@@ -1226,9 +1253,12 @@ footer .attribution {
   .word-label {
     font-size: 9px;
   }
-  .ticker {
-    padding-block: 15px;
+  .ticker-viewport {
     font-size: 14px;
+  }
+  .ticker-toolbar {
+    flex-wrap: wrap;
+    gap: 2px 12px;
   }
   .section {
     padding-top: 50px;
