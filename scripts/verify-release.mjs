@@ -4,6 +4,25 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { releaseBranch, stableVersion } from "./release-policy.mjs";
 
+export function inferReleaseBranch(tag, root = process.cwd()) {
+  const [major] = stableVersion(tag?.startsWith("v") ? tag.slice(1) : undefined);
+  const git = (args) =>
+    execFileSync("git", args, { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
+  const target = git(["rev-parse", "--verify", "refs/tags/" + tag + "^{commit}"]);
+  const primary = JSON.parse(git(["show", "refs/remotes/origin/master:package.json"])).version;
+  const contains = (branch) => {
+    try {
+      git(["merge-base", "--is-ancestor", target, "refs/remotes/origin/" + branch]);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+  if (stableVersion(primary)[0] === major && contains("master")) return "master";
+  if (contains(major + ".x")) return major + ".x";
+  throw new Error("The tag must be merged into its matching primary or maintenance branch");
+}
+
 export function verifyRelease(tag, root = process.cwd(), checkout = false, branch = "master") {
   if (!/^v\d+\.\d+\.\d+(?:-[\w.-]+)?$/.test(tag ?? "")) {
     throw new Error("The release tag must equal a valid package version tag");

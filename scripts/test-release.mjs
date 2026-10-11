@@ -3,7 +3,7 @@ import { execFileSync } from "node:child_process";
 import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { verifyRelease } from "./verify-release.mjs";
+import { inferReleaseBranch, verifyRelease } from "./verify-release.mjs";
 import { maintenanceState } from "./release-policy.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -35,6 +35,7 @@ const merged = git("rev-parse", "HEAD");
 git("update-ref", "refs/remotes/origin/master", merged);
 git("tag", "v5.0.7");
 assert.equal(verifyRelease("v5.0.7", repo), merged);
+assert.equal(inferReleaseBranch("v5.0.7", repo), "master");
 git("tag", "v5.0.9");
 assert.throws(() => verifyRelease("v5.0.9", repo), /tag must equal/);
 assert.throws(() => verifyRelease("v5.0.9", repo, true), /tag must equal/);
@@ -71,6 +72,17 @@ git("checkout", "--detach", latest);
 assert.equal(verifyRelease("v5.0.9", repo, true, "5.x"), maintenance);
 assert.deepEqual(maintenanceState("5.x", "5.0.9", repo), { version: "5.0.9", publishedTag: "5.0.9" });
 assert.throws(() => maintenanceState("5.x", "5.0.8", repo), /merged tag/);
+assert.equal(inferReleaseBranch("v5.0.9", repo), "5.x");
+git("checkout", "--detach", latest);
+await writeFile(join(repo, "package.json"), JSON.stringify({ version: "6.0.0" }));
+git("add", "package.json");
+git("commit", "-m", "Future primary major");
+git("tag", "v6.0.0");
+git("update-ref", "refs/remotes/origin/master", "HEAD");
+assert.equal(inferReleaseBranch("v6.0.0", repo), "master");
+assert.equal(inferReleaseBranch("v5.0.9", repo), "5.x");
+assert.equal(inferReleaseBranch("v5.0.7", repo), "5.x");
+assert.throws(() => inferReleaseBranch("v5.0.8", repo), /matching primary or maintenance/);
 console.log(
   "Release checks passed: merged primary and independent maintenance tags accepted; wrong versions, branches, unmerged commits and mismatched checkouts rejected.",
 );

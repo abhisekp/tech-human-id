@@ -1,7 +1,7 @@
 import { execFileSync } from "node:child_process";
 import { appendFileSync, readFileSync } from "node:fs";
-import { verifyRelease } from "./verify-release.mjs";
-import { planRelease, readRegistry, releaseBranch, stableVersion } from "./release-policy.mjs";
+import { inferReleaseBranch, verifyRelease } from "./verify-release.mjs";
+import { planRelease, readRegistry, releaseBranch } from "./release-policy.mjs";
 
 const git = (args) => execFileSync("git", args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }).trim();
 const event = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, "utf8"));
@@ -37,9 +37,7 @@ if (type === "pull_request") {
 } else if (type === "push" && process.env.GITHUB_REF?.startsWith("refs/tags/")) {
   tag = process.env.GITHUB_REF.slice("refs/tags/".length);
   if (!/^v(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)$/.test(tag)) throw new Error("Invalid stable release tag");
-  const primary = JSON.parse(git(["show", "refs/remotes/origin/master:package.json"])).version;
-  branch =
-    stableVersion(primary)[0] === stableVersion(tag.slice(1))[0] ? "master" : stableVersion(tag.slice(1))[0] + ".x";
+  branch = inferReleaseBranch(tag);
 } else {
   throw new Error("Unsupported release event");
 }
