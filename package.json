@@ -31,7 +31,7 @@
     "verify": "npm run typecheck && npm test -- --runInBand && npm run test:release && npm run build && npm run test:package && npm run build:site",
     "prepack": "node scripts/build.mjs",
     "clean": "node scripts/build.mjs --clean-only",
-    "test:release": "node scripts/test-release.mjs"
+    "test:release": "node scripts/test-release.mjs && node scripts/test-publish.mjs"
   },
   "repository": {
     "type": "git",

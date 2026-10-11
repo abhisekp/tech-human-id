@@ -2,8 +2,9 @@ import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { releaseBranch, stableVersion } from "./release-policy.mjs";
 
-export function verifyRelease(tag, root = process.cwd(), checkout = false) {
+export function verifyRelease(tag, root = process.cwd(), checkout = false, branch = "master") {
   if (!/^v\d+\.\d+\.\d+(?:-[\w.-]+)?$/.test(tag ?? "")) {
     throw new Error("The release tag must equal a valid package version tag");
   }
@@ -15,14 +16,16 @@ export function verifyRelease(tag, root = process.cwd(), checkout = false) {
     checkout ? git(["show", target + ":package.json"]) : readFileSync(resolve(root, "package.json"), "utf8"),
   );
   if (tag !== "v" + version) throw new Error("The release tag must equal v" + version);
+  stableVersion(version);
+  releaseBranch(branch, version);
   if (!checkout && target !== head) throw new Error("The checked-out commit must match the release tag");
   try {
-    git(["merge-base", "--is-ancestor", target, "refs/remotes/origin/master"]);
+    git(["merge-base", "--is-ancestor", target, "refs/remotes/origin/" + branch]);
   } catch {
-    throw new Error("The release commit must be merged into origin/master");
+    throw new Error("The release commit must be merged into origin/" + branch);
   }
   if (checkout) git(["checkout", "--detach", target]);
-  console.log("Verified " + tag + " at " + target + " is merged into master");
+  console.log("Verified " + tag + " at " + target + " is merged into " + branch);
   return target;
 }
 

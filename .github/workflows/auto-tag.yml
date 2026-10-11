@@ -3,7 +3,7 @@ name: Create Tag
 on:
   workflow_dispatch:
   push:
-    branches: [master]
+    branches: [master, "[0-9]*.x"]
 
 permissions:
   contents: read
@@ -12,7 +12,7 @@ jobs:
   validate:
     uses: ./.github/workflows/ci.yml
   tag:
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' || (startsWith(github.ref, 'refs/heads/') && endsWith(github.ref, '.x'))
     needs: validate
     runs-on: ubuntu-latest
     permissions:
@@ -24,5 +24,7 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 24
-      - name: Create a version tag only from current, validated master
-        run: node scripts/create-tag.mjs
+      - name: Create a version tag only from the current validated release branch
+        run: |
+          git fetch origin "$GITHUB_REF_NAME"
+          node scripts/create-tag.mjs

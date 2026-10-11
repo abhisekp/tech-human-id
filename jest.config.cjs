@@ -6,6 +6,7 @@ module.exports = {
   coverageDirectory: "coverage",
   coverageProvider: "v8",
   testEnvironment: "node",
+  modulePathIgnorePatterns: ["<rootDir>/work/"],
   testMatch: ["<rootDir>/**/*.test.ts"],
   transform: { "^.+\\.tsx?$": ["ts-jest", {}] },
 };

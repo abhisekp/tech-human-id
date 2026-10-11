@@ -4,6 +4,7 @@ import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { verifyRelease } from "./verify-release.mjs";
+import { maintenanceState } from "./release-policy.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 await mkdir(join(root, "work"), { recursive: true });
@@ -56,6 +57,20 @@ assert.equal(git("rev-parse", "HEAD"), git("rev-parse", "refs/tags/v5.0.8"));
 git("checkout", "--detach", latest);
 assert.equal(verifyRelease("v5.0.7", repo, true), merged);
 assert.equal(git("rev-parse", "HEAD"), merged);
+git("switch", "-c", "5.x");
+await writeFile(join(repo, "package.json"), JSON.stringify({ version: "5.0.9" }));
+git("add", "package.json");
+git("commit", "-m", "Independent non-breaking maintenance release");
+const maintenance = git("rev-parse", "HEAD");
+git("tag", "v5.0.9", "--force");
+git("update-ref", "refs/remotes/origin/5.x", maintenance);
+assert.equal(verifyRelease("v5.0.9", repo, false, "5.x"), maintenance);
+assert.throws(() => verifyRelease("v5.0.9", repo), /merged into origin\/master/);
+assert.throws(() => verifyRelease("v5.0.9", repo, false, "6.x"), /matching major/);
+git("checkout", "--detach", latest);
+assert.equal(verifyRelease("v5.0.9", repo, true, "5.x"), maintenance);
+assert.deepEqual(maintenanceState("5.x", "5.0.9", repo), { version: "5.0.9", publishedTag: "5.0.9" });
+assert.throws(() => maintenanceState("5.x", "5.0.8", repo), /merged tag/);
 console.log(
-  "Release checks passed: merged tag accepted; wrong version, unmerged commit and mismatched checkout rejected.",
+  "Release checks passed: merged primary and independent maintenance tags accepted; wrong versions, branches, unmerged commits and mismatched checkouts rejected.",
 );
