@@ -26,7 +26,11 @@ export function publishPackage({
     throw new Error("Archive identity does not match the validated release");
   }
   const plan = planRelease({ version, branch, registry, config, maintenance });
-  if (plan.existing && !preview) {
+  if (plan.existing && preview) {
+    // npm publish --dry-run still rejects versions already present in the registry.
+    // Validate the proposed archive without mutating its version or publishing it.
+    npm(["pack", archive, "--dry-run", "--json", "--ignore-scripts"]);
+  } else if (plan.existing) {
     const integrity = "sha512-" + createHash("sha512").update(readFileSync(archive)).digest("base64");
     if (plan.existing.dist?.integrity !== integrity)
       throw new Error("This version is already published with different archive contents");
