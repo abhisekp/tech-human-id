@@ -4,6 +4,13 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      # ts-jest requires the TypeScript 6 JavaScript compiler API.
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
+      # Match the oldest Node.js version validated by CI.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     groups:
       development:
         dependency-type: development

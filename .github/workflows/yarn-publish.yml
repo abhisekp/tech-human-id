@@ -1,28 +1,49 @@
 name: Publish Node.js Package
 
 on:
+  workflow_run:
+    workflows: [Create Tag]
+    types: [completed]
+    branches: [master, "[0-9]*.x"]
   push:
     tags: ["v*"]
   workflow_dispatch:
     inputs:
       tag:
-        description: "Existing version tag to publish, for example v5.0.8"
+        description: "Existing stable version tag, for example v5.0.8"
         required: true
         type: string
+      branch:
+        description: "Merged release branch: master or a major maintenance branch such as 5.x"
+        required: true
+        default: master
+        type: string
+      dry_run:
+        description: "Validate and pack without publishing or changing npm tags"
+        default: true
+        type: boolean
 
 permissions:
   contents: read
 
+# Serialize npm channel updates across current and maintenance releases.
 concurrency:
-  group: npm-release-${{ inputs.tag || github.ref_name }}
+  group: npm-publication
   cancel-in-progress: false
 
 jobs:
   build:
-    if: github.event_name == 'push' || github.ref == 'refs/heads/master'
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
     runs-on: ubuntu-latest
-    env:
-      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+    outputs:
+      tag: ${{ steps.release.outputs.tag }}
+      branch: ${{ steps.release.outputs.branch }}
+      version: ${{ steps.release.outputs.version }}
+      controller: ${{ steps.release.outputs.controller }}
+      dry_run: ${{ steps.release.outputs.dry_run }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -32,13 +53,17 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 24
-      - name: Verify with the trusted master script, then check out the release
-        run: node scripts/verify-release.mjs "$RELEASE_TAG" --checkout
+          package-manager-cache: false
+      - name: Verify the release policy and merged tag using the trusted controller
+        id: release
+        run: node scripts/prepare-release.mjs
       - name: Install Yarn
         run: npm install --global yarn@1.22.22
       - run: yarn install --frozen-lockfile
       - run: yarn verify
       - run: yarn format:check
+      - name: Check committed bundles match their sources
+        run: git diff --exit-code -- dist site/library.mjs index.html
       - name: Pack the validated build
         run: |
           mkdir release
@@ -48,23 +73,89 @@ jobs:
           name: npm-package
           path: release/*.tgz
           if-no-files-found: error
+          retention-days: 7
+
+  dry-run:
+    if: needs.build.outputs.dry_run == 'true'
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_VERSION: ${{ needs.build.outputs.version }}
+      RELEASE_BRANCH: ${{ needs.build.outputs.branch }}
+      DRY_RUN: "true"
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ needs.build.outputs.controller }}
+          fetch-depth: 0
+          persist-credentials: false
+          sparse-checkout: |
+            scripts
+            release.config.json
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npm install --global npm@11.21.0
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: npm-package
+          path: release
+      - name: Dry run the exact archive without publishing credentials
+        run: node scripts/publish-package.mjs
 
   publish-npm:
+    if: needs.build.outputs.dry_run == 'false'
     needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
+    outputs:
+      latest: ${{ steps.publish.outputs.latest }}
+    env:
+      RELEASE_VERSION: ${{ needs.build.outputs.version }}
+      RELEASE_BRANCH: ${{ needs.build.outputs.branch }}
+      DRY_RUN: "false"
     steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ needs.build.outputs.controller }}
+          fetch-depth: 0
+          persist-credentials: false
+          sparse-checkout: |
+            scripts
+            release.config.json
+          sparse-checkout-cone-mode: false
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org/
+          package-manager-cache: false
+      - run: npm install --global npm@11.21.0
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: npm-package
           path: release
-      - name: Publish the exact validated archive with provenance
-        run: npm publish release/*.tgz --access public --provenance --ignore-scripts
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish the exact validated archive using npm trusted publishing
+        id: publish
+        run: node scripts/publish-package.mjs
+
+  github-release:
+    needs: [build, publish-npm]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ needs.build.outputs.tag }}
+      IS_LATEST: ${{ needs.publish-npm.outputs.latest }}
+    steps:
+      - name: Create release notes after successful npm publication
+        run: |
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "$RELEASE_TAG already has release notes."
+          else
+            gh release create "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --verify-tag --generate-notes --title "$RELEASE_TAG" --latest="$IS_LATEST"
+          fi
