@@ -51,6 +51,10 @@ const consumerRequire = createRequire(join(scratch, "package.json"));
 const installed = consumerRequire("tech-human-id/package.json");
 assert.equal(Object.keys(installed.dependencies ?? {}).length, 0);
 assert.equal(installed.bin["tech-human-id"], "./dist/cli.js");
+const cliMap = JSON.parse(await readFile(consumerRequire.resolve("tech-human-id/dist/cli.js.map"), "utf8"));
+const packageSource = cliMap.sources.indexOf("../package.json");
+assert(packageSource >= 0, "CLI source map should include its version source");
+assert.deepEqual(JSON.parse(cliMap.sourcesContent[packageSource]), { version: installed.version });
 
 const check = `
 const assert = require("node:assert/strict");
